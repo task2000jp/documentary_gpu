@@ -1,0 +1,30 @@
+[
+  {
+    "id": "test_title",
+    "duration": 4.0,
+    "background": {"type": "gradient", "colors": ["#1a0a0a", "#3a1a1a"]},
+    "text": {"content": "第六章　宗教改革", "style": "title"},
+    "grade": "sepia",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "fade_in": 0.8,
+    "fade_out": 0.6
+  },
+  {
+    "id": "test_luther",
+    "duration": 6.0,
+    "background": {
+      "type": "image",
+      "path": "assets/images/luther_wittenberg.jpg",
+      "motion": "dolly",
+      "amplitude": 0.045
+    },
+    "text": {"content": "一五一七年十月三十一日", "style": "subtitle"},
+    "grade": "warm",
+    "vignette": 0.4,
+    "grain": 0.03,
+    "atmosphere": 0.15,
+    "fade_in": 0.6,
+    "fade_out": 0.6
+  }
+]

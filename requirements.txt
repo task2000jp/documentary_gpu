@@ -1,0 +1,24 @@
+# ── コア（Phase 1: 必ず必要）──
+torch>=2.1
+numpy
+Pillow
+# ffmpeg はシステム側（apt install ffmpeg / brew install ffmpeg）
+
+# ── 深度・パララックス（Phase 1）──
+transformers>=4.44          # Depth Anything V2
+# depthflow                 # 任意: GPUシェーダーパララックス（pip install depthflow）
+
+# ── 画像生成（Phase 2）──
+diffusers>=0.31             # FLUX.1 schnell / SDXL / LTX-Video
+accelerate
+sentencepiece               # FLUX text encoder
+# bitsandbytes              # 任意: NF4量子化（FLUXをT4に載せる）
+
+# ── ナレーション（Phase 3）──
+# style-bert-vits2          # 日本語TTS第一候補（Colabでpip install）
+edge-tts                    # フォールバック
+soundfile
+
+# ── 動画生成（Phase 4・任意）──
+imageio
+imageio-ffmpeg

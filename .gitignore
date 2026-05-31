@@ -1,0 +1,8 @@
+models/
+build/
+assets/bgm/
+assets/characters/
+.env
+__pycache__/
+*.pyc
+.DS_Store
