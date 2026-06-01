@@ -4,8 +4,9 @@
 前プロジェクト `blessing_documentary`（CPU・moviepy・スライドショー的）の反省を踏まえ、
 **2.5Dパララックス中心 + 高品質AI静止画 + シネマ後処理**で再設計したGPUネイティブ基盤。
 
-> 設計の根拠は **`docs/research_2026.md`** に全て記録（2026年5月の実地調査）。
-> 作業前に必ず読むこと。
+> **何を作るか（コンテンツ）**: `docs/content_design.md` ← 引越し完了・ここが出発点
+> **どう作るか（技術）**: `docs/research_2026.md` / `docs/architecture.md`
+> **前作の教訓**: `docs/lessons_from_v31.md`
 
 ---
 
