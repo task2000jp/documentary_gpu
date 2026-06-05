@@ -2,9 +2,9 @@
 .venv/
 models/
 build/
-# アセットは Drive 管理（Colabがセル4でDriveから取得）。gitはコード専用。
-# ディレクトリは実行時に mkdir -p される（pipeline.py / colab_render.ipynb）。
-assets/images/
+# 画像は最適化済み（scripts/optimize_images.py で計17MB）→ gitで配布。
+#   Colabはclone一発で画像を入手（Drive不要）。
+# BGM(42MB)/キャラクターは重い&著作権ありのため Drive 管理（Colabがセル4で取得）。
 assets/bgm/
 assets/characters/
 .env
