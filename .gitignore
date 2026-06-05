@@ -1,8 +1,20 @@
+.mcp.json
+.venv/
 models/
 build/
+# アセットは Drive 管理（Colabがセル4でDriveから取得）。gitはコード専用。
+# ディレクトリは実行時に mkdir -p される（pipeline.py / colab_render.ipynb）。
+assets/images/
 assets/bgm/
 assets/characters/
 .env
 __pycache__/
 *.pyc
 .DS_Store
+
+# OAuth/認証シークレット（絶対にコミットしない）
+client_secret*.json
+*.apps.googleusercontent.com.json
+*credentials*.json
+token.json
+.clasp.json

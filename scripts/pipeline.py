@@ -72,10 +72,12 @@ def cmd_doctor(args):
             print(f"  ✅ CUDA: {torch.cuda.get_device_name(0)}")
             vram = torch.cuda.get_device_properties(0).total_memory / 1e9
             print(f"     VRAM: {vram:.1f}GB")
+            print("  → Colab/GPU環境: レンダリング可能")
         else:
             print("  ⚠️  CUDA なし（CPUで動作・パララックスは遅い）")
     except ImportError:
-        print("  ❌ torch 未インストール")
+        print("  ⚪ torch 未導入 → ローカル(設計/コーディング)環境")
+        print("     レンダリングはColabで requirements-colab.txt を使用")
     # ffmpeg
     import shutil
     has_nvenc = False

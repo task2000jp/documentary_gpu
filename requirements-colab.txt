@@ -1,0 +1,32 @@
+# ════════════════════════════════════════════════════════════
+# Colab T4 環境用 — フルGPUスタック
+# ════════════════════════════════════════════════════════════
+# 方針: 画像生成・深度・パララックス・TTS・動画・GPU後処理を担う本番環境。
+#       Colabには torch/CUDA が最初から入っているので torch は明示指定しない
+#       （Colabのプリインストール版に合わせる。上書きするとCUDA不整合の元）。
+#
+#   Colabセル: !pip install -q -r requirements-colab.txt
+# ════════════════════════════════════════════════════════════
+
+# ── 深度・パララックス（Phase 1）──
+transformers>=4.44          # Depth Anything V2
+# depthflow                 # 任意: GPUシェーダーパララックス（pip install depthflow）
+
+# ── 画像生成（Phase 2）──
+diffusers>=0.31             # FLUX.1 schnell / SDXL / LTX-Video
+accelerate
+sentencepiece               # FLUX text encoder
+bitsandbytes                # NF4量子化（FLUXをT4 15GBに載せる）
+
+# ── ナレーション（Phase 3）──
+# style-bert-vits2          # 日本語TTS第一候補（Colabで別途 pip install）
+edge-tts                    # フォールバック
+soundfile
+
+# ── 動画生成（Phase 4・任意）──
+imageio
+imageio-ffmpeg
+
+# ── 共通 ──
+Pillow
+numpy

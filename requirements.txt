@@ -1,24 +1,14 @@
-# ── コア（Phase 1: 必ず必要）──
-torch>=2.1
-numpy
-Pillow
-# ffmpeg はシステム側（apt install ffmpeg / brew install ffmpeg）
-
-# ── 深度・パララックス（Phase 1）──
-transformers>=4.44          # Depth Anything V2
-# depthflow                 # 任意: GPUシェーダーパララックス（pip install depthflow）
-
-# ── 画像生成（Phase 2）──
-diffusers>=0.31             # FLUX.1 schnell / SDXL / LTX-Video
-accelerate
-sentencepiece               # FLUX text encoder
-# bitsandbytes              # 任意: NF4量子化（FLUXをT4に載せる）
-
-# ── ナレーション（Phase 3）──
-# style-bert-vits2          # 日本語TTS第一候補（Colabでpip install）
-edge-tts                    # フォールバック
-soundfile
-
-# ── 動画生成（Phase 4・任意）──
-imageio
-imageio-ffmpeg
+# ════════════════════════════════════════════════════════════
+# 依存ライブラリは環境ごとに分離しています
+# ════════════════════════════════════════════════════════════
+#
+#   ローカル（Intel Mac・設計/コーディング/軽量確認）:
+#       .venv/bin/pip install -r requirements-local.txt
+#       → torch等のGPUスタックは入れない
+#
+#   Colab T4（画像/深度/パララックス/TTS/動画の本番レンダリング）:
+#       !pip install -q -r requirements-colab.txt
+#       → torch/CUDAはColabプリインストール版を利用
+#
+# 重いGPU処理は全てColabで実行する設計のため、ローカルにtorchは不要。
+# ════════════════════════════════════════════════════════════

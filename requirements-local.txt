@@ -1,0 +1,24 @@
+# ════════════════════════════════════════════════════════════
+# ローカル環境（Intel Mac / CUDA無し）用 — 軽量ツールのみ
+# ════════════════════════════════════════════════════════════
+# 方針: 重いGPU処理(torch/diffusers/transformers)はColabで実行する。
+#       ローカルは「設計・コーディング・シーンJSON検証・軽量確認」専用。
+#       → torch系は絶対に入れない（Intel Macは2.2が最後で詰む）
+#
+#   インストール: .venv/bin/pip install -r requirements-local.txt
+# ════════════════════════════════════════════════════════════
+
+# ── シーンJSON・画像メタ確認 ──
+Pillow
+numpy
+
+# ── ナレーション下書き（APIベース・CPUで動く） ──
+edge-tts
+soundfile
+
+# ── クリップ結合・mp4書き出し（ffmpegはシステム側 brew install ffmpeg）──
+imageio
+imageio-ffmpeg
+
+# ── 開発補助 ──
+# ※ GPUモデル(torch/transformers/diffusers/accelerate)は requirements-colab.txt 参照
