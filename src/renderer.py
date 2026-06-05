@@ -54,6 +54,9 @@ def _base_clip(scene: dict, out: str) -> str:
 
     if btype in ("parallax", "image", "sd_generated"):
         image = _resolve_image(bg)
+        if btype == "sd_generated":
+            import image_gen
+            image_gen.free()  # FLUX VRAM解放 → depth model と共存不可（T4 15GB制約）
         motion = bg.get("motion", "orbit")
         amp = bg.get("amplitude", 0.04)
         return dp.animate_parallax(image, out, duration=duration,

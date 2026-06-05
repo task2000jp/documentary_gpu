@@ -28,13 +28,36 @@ _backend = None
 
 
 def _load_flux():
-    """FLUX.1 schnell を NF4 量子化でロード（T4向け）。"""
+    """FLUX.1 schnell NF4量子化でロード（T4向け ~7GB）。
+    bitsandbytes未インストール時は sequential_cpu_offload にフォールバック。
+    """
     from diffusers import FluxPipeline
-    pipe = FluxPipeline.from_pretrained(
-        "black-forest-labs/FLUX.1-schnell",
-        torch_dtype=torch.bfloat16,
-    )
-    pipe.enable_sequential_cpu_offload()  # VRAM節約（T4必須）
+    try:
+        from diffusers.models import FluxTransformer2DModel
+        from transformers import BitsAndBytesConfig
+        nf4 = BitsAndBytesConfig(
+            load_in_4bit=True, bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True,
+        )
+        # transformerだけNF4（最大VRAM消費部分、~12GB→~3.5GB）
+        transformer = FluxTransformer2DModel.from_pretrained(
+            "black-forest-labs/FLUX.1-schnell", subfolder="transformer",
+            quantization_config=nf4, torch_dtype=torch.bfloat16,
+        )
+        pipe = FluxPipeline.from_pretrained(
+            "black-forest-labs/FLUX.1-schnell",
+            transformer=transformer, torch_dtype=torch.bfloat16,
+        )
+        pipe.enable_model_cpu_offload()
+        print("  [image_gen] FLUX NF4量子化ロード完了 (~7GB VRAM)")
+    except Exception as e:
+        print(f"  [image_gen] NF4不可 → sequential offloadにフォールバック: {e}")
+        pipe = FluxPipeline.from_pretrained(
+            "black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16,
+        )
+        pipe.enable_sequential_cpu_offload()
+        pipe.vae.enable_slicing()
+        pipe.vae.enable_tiling()
     return pipe
 
 

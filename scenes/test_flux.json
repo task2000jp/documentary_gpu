@@ -1,0 +1,21 @@
+[
+  {
+    "id": "flux_wittenberg",
+    "duration": 6.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "Martin Luther nailing 95 theses to Wittenberg church door 1517, dramatic candlelight, gothic stone architecture, reformation era, oil painting, old master style",
+      "style": "historical_oil",
+      "cache_key": "flux_wittenberg_1517",
+      "motion": "dolly",
+      "amplitude": 0.04
+    },
+    "text": {"content": "一五一七年　宗教改革の夜明け", "style": "subtitle"},
+    "grade": "sepia",
+    "vignette": 0.55,
+    "grain": 0.04,
+    "atmosphere": 0.12,
+    "fade_in": 0.8,
+    "fade_out": 0.8
+  }
+]
