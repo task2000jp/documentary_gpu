@@ -71,7 +71,9 @@ function generateGaps_(n) {
     '知識ギャップを埋める問いを' + n + '個。対象を偏らせるな（富/エリートに寄せない。' +
     'trend/everyday/relational/randomを混ぜ、成功次元も分散）。各事象を二軸で問う:\n' +
     '- マクロ相関: 歴史・インフラ・摂理(福音→改革→産業→メディア→ペイロード)との繋がり\n' +
-    '- ミクロ相関(被造設計): なぜ人間の脳・心はそれに惹かれるよう作られているか\n\n' +
+    '- ミクロ相関(被造設計): なぜ人間の脳・心はそれに惹かれるよう作られているか\n' +
+    '※phenomenonは固有名詞レベルで具体的に（「音楽」等の総称でなく「YOASOBI」「久石譲の劇伴」など）。\n' +
+    '※counterは自明な否定でなく、論旨を本当に揺さぶる対抗仮説にせよ。\n\n' +
     '必ずJSONのみ: {"gaps":[{"domain":"","phenomenon":"","success_type":"外的|関係的|身体的|内面的|霊的",' +
     '"perspective":"trend|everyday|relational|random|elite","q_mechanism":"","q_macro":"","q_micro":"",' +
     '"hypothesis":"","counter":"","integration_target":"","priority":"high|medium|low"}]}';
@@ -123,7 +125,7 @@ function researchOpenGaps_(maxN) {
     var phenom = data[i][COL.phenom];
     if (!phenom) continue;
 
-    var ev = gatherEvidence_(phenom, data[i][COL.stype]);
+    var ev = gatherEvidence_(phenom, data[i][COL.stype], data[i][COL.domain]);
     var evidence = ev.length
       ? ev.map(function (h) { return '- [' + (h.source || '') + '] ' + h.title + ': ' + (h.snippet || ''); }).join('\n')
       : '(一次調査ヒットなし。一般知識で)';
@@ -131,12 +133,13 @@ function researchOpenGaps_(maxN) {
 
     var prompt =
       THESIS_GAS + '\n\n事象「' + phenom + '」を分析し洞察を出す。\n' +
+      '※事象は領域「' + data[i][COL.domain] + '」の文脈で解釈し、同名の別概念に逸れないこと。\n' +
       '機序: ' + data[i][COL.qMech] + '\nマクロ: ' + data[i][COL.qMacro] +
       '\n被造設計: ' + data[i][COL.qMicro] + '\n一次仮説: ' + data[i][COL.hypo] +
-      '\n\n参考(多源一次調査):\n' + evidence + '\n\n' +
+      '\n\n参考(多源一次調査・無関係なものは無視):\n' + evidence + '\n\n' +
       '二軸(マクロ=歴史/インフラ/摂理、ミクロ=脳/心の被造設計)で2〜4文に統合。' +
       '被造設計はarxiv知見を踏まえること。対抗仮説も一言。' +
-      '必ずJSONのみ: {"insight":"","source":"","integration_target":""}';
+      '全フィールド文字列で。必ずJSONのみ: {"insight":"","source":"","integration_target":""}';
 
     var res = callGroq_(prompt);
     var out = null;
@@ -144,9 +147,9 @@ function researchOpenGaps_(maxN) {
 
     var r = i + 1;
     if (out && out.insight) {
-      sheet.getRange(r, COL.insight + 1).setValue(out.insight);
-      sheet.getRange(r, COL.source + 1).setValue(out.source || srcUrls);
-      if (out.integration_target) sheet.getRange(r, COL.target + 1).setValue(out.integration_target);
+      sheet.getRange(r, COL.insight + 1).setValue(toStr_(out.insight));
+      sheet.getRange(r, COL.source + 1).setValue(toStr_(out.source) || srcUrls);
+      if (out.integration_target) sheet.getRange(r, COL.target + 1).setValue(toStr_(out.integration_target));
       sheet.getRange(r, COL.status + 1).setValue('resolved');
     } else {
       sheet.getRange(r, COL.status + 1).setValue('researching');
@@ -159,10 +162,12 @@ function researchOpenGaps_(maxN) {
 }
 
 // 多源証拠収集（日Wikipedia + 英Wikipedia + arxiv認知科学）
-function gatherEvidence_(phenom, stype) {
+// domain を付して同名異義の誤ヒットを抑える（例「アバター 映画」）
+function gatherEvidence_(phenom, stype, domain) {
+  var q = phenom + (domain ? ' ' + domain : '');
   var ev = [];
-  try { ev = ev.concat(searchWikipediaJa_(phenom)); } catch (e) {}
-  try { ev = ev.concat(searchWikipedia(phenom)); } catch (e) {}   // collector.gs(en)
+  try { ev = ev.concat(searchWikipediaJa_(q)); } catch (e) {}
+  try { ev = ev.concat(searchWikipedia(q)); } catch (e) {}   // collector.gs(en)
   var cq = COGNITIVE_QUERY[stype] || 'human preference cognition brain';
   try { ev = ev.concat((searchArxiv(cq) || []).slice(0, 2)); } catch (e) {} // collector.gs
   return ev;
@@ -216,9 +221,9 @@ function draftPromotions_(maxN) {
 
     if (out && out.draft_md) {
       draftSheet.appendRow([today, data[i][COL.id], data[i][COL.phenom],
-        out.section || data[i][COL.target], out.draft_md, out.sources || data[i][COL.source],
-        out.counter_check || '', out.theology_check || '',
-        out.gate_pass ? 'pass' : 'check', '待承認']);
+        toStr_(out.section || data[i][COL.target]), toStr_(out.draft_md),
+        toStr_(out.sources) || data[i][COL.source], toStr_(out.counter_check),
+        toStr_(out.theology_check), out.gate_pass ? 'pass' : 'check', '待承認']);
       sheet.getRange(i + 1, COL.status + 1).setValue('proposed');
       sheet.getRange(i + 1, COL.updated + 1).setValue(today);
       done++;
@@ -290,6 +295,14 @@ function callGroq_(prompt) {
 // ─────────────────────────────────────────────
 // ヘルパ
 // ─────────────────────────────────────────────
+// Groqが配列で返した値をセル用に文字列化（[Ljava.lang.Object 化を防ぐ）
+function toStr_(v) {
+  if (v == null) return '';
+  if (Array.isArray(v)) return v.join(', ');
+  if (typeof v === 'object') return JSON.stringify(v);
+  return String(v);
+}
+
 function _maxGapNum_(sheet) {
   var n = 0;
   if (sheet.getLastRow() < 2) return 0;
