@@ -101,6 +101,25 @@ def cmd_doctor(args):
             print(f"  ⚪ {label} 未導入")
 
 
+def cmd_upload(args):
+    import upload_youtube
+    meta_path = Path(args.meta) if args.meta else None
+    if meta_path is None:
+        # --chapter 指定時はデフォルトメタを探す
+        meta_path = BASE / "scenes" / f"{args.chapter}_meta.json"
+    if not meta_path.exists():
+        print(f"エラー: {meta_path} がありません。--meta でJSONを指定してください。")
+        return
+    video_path = args.video or str(BASE / "build" / "chapters" / f"{args.chapter}.mp4")
+    if not Path(video_path).exists():
+        print(f"エラー: {video_path} がありません。先に render を実行してください。")
+        return
+    meta = json.loads(Path(meta_path).read_text())
+    from datetime import datetime
+    schedule_dt = datetime.fromisoformat(args.schedule) if args.schedule else None
+    upload_youtube.upload(video_path, meta, schedule_dt)
+
+
 def main():
     p = argparse.ArgumentParser(description="Documentary GPU Pipeline")
     sub = p.add_subparsers(dest="command")
@@ -109,10 +128,16 @@ def main():
     pr = sub.add_parser("render"); pr.add_argument("chapter")
     rs = sub.add_parser("render-scene")
     rs.add_argument("json"); rs.add_argument("id")
+    up = sub.add_parser("upload", help="YouTube にアップロード")
+    up.add_argument("chapter", nargs="?", help="章名（build/chapters/<章>.mp4）")
+    up.add_argument("--video",    default=None, help="動画ファイルを直接指定")
+    up.add_argument("--meta",     default=None, help="メタデータJSON（省略時: scenes/<章>_meta.json）")
+    up.add_argument("--schedule", default=None, help="予約投稿日時 ISO8601")
 
     args = p.parse_args()
     {"status": cmd_status, "render": cmd_render,
-     "render-scene": cmd_render_scene, "doctor": cmd_doctor}.get(
+     "render-scene": cmd_render_scene, "doctor": cmd_doctor,
+     "upload": cmd_upload}.get(
         args.command, lambda a: p.print_help())(args)
 
 

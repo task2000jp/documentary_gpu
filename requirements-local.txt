@@ -20,5 +20,9 @@ soundfile
 imageio
 imageio-ffmpeg
 
-# ── 開発補助 ──
+# ── YouTube アップロード（pipeline.py upload コマンド）──
+google-auth
+google-auth-oauthlib
+google-api-python-client
+
 # ※ GPUモデル(torch/transformers/diffusers/accelerate)は requirements-colab.txt 参照
