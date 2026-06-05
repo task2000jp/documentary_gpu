@@ -50,12 +50,13 @@ def midi_to_wav(midi: str, soundfont: str, out_wav: str):
     print(f"  ① 楽器音化: {out_wav}")
 
 
-def mix_and_master(in_wav: str, out_wav: str):
+def mix_and_master(in_wav: str, out_wav: str, style: str = "orchestral"):
     """② ミックス（空間/EQ/コンプ）→ ③ -16 LUFS マスタリング。"""
     import numpy as np
     import soundfile as sf
     try:
-        from pedalboard import Pedalboard, Reverb, Compressor, HighpassFilter, Limiter
+        from pedalboard import (Pedalboard, Reverb, Compressor,
+                                HighpassFilter, Limiter, Delay, Chorus)
         have_pb = True
     except ImportError:
         have_pb = False
@@ -66,15 +67,27 @@ def mix_and_master(in_wav: str, out_wav: str):
         audio = np.stack([audio, audio], axis=-1)  # mono→stereo
 
     if have_pb:
-        board = Pedalboard([
-            HighpassFilter(cutoff_frequency_hz=35),   # 低域の濁り除去
-            Compressor(threshold_db=-18, ratio=2.5),  # まとめる
-            Reverb(room_size=0.55, damping=0.4, wet_level=0.18, dry_level=0.85),
-            Limiter(threshold_db=-1.0),               # クリップ防止
-        ])
-        audio = board(audio.T if audio.shape[0] < audio.shape[1] else audio, sr) \
-            if audio.ndim == 2 and audio.shape[1] == 2 else board(audio, sr)
-        print("  ② ミックス: HPF→Comp→Reverb→Limiter")
+        if style == "fingerstyle":
+            # Knopfler風: スラップ気味ディレイ + 軽いコーラス + 広い残響
+            chain = [
+                HighpassFilter(cutoff_frequency_hz=60),
+                Compressor(threshold_db=-16, ratio=2.0),
+                Chorus(rate_hz=0.6, depth=0.18, mix=0.2),
+                Delay(delay_seconds=0.28, feedback=0.28, mix=0.22),  # signature delay
+                Reverb(room_size=0.62, damping=0.35, wet_level=0.16, dry_level=0.88),
+                Limiter(threshold_db=-1.0),
+            ]
+            print("  ② ミックス(fingerstyle): HPF→Comp→Chorus→Delay→Reverb→Limiter")
+        else:
+            chain = [
+                HighpassFilter(cutoff_frequency_hz=35),
+                Compressor(threshold_db=-18, ratio=2.5),
+                Reverb(room_size=0.55, damping=0.4, wet_level=0.18, dry_level=0.85),
+                Limiter(threshold_db=-1.0),
+            ]
+            print("  ② ミックス(orchestral): HPF→Comp→Reverb→Limiter")
+        board = Pedalboard(chain)
+        audio = board(audio, sr)
 
     # ③ -16 LUFS 正規化
     try:
@@ -97,6 +110,9 @@ def main():
     ap.add_argument("midi", help="入力MIDI（build/music/ch6.mid）")
     ap.add_argument("--out", default=None, help="出力wav（省略時 同名.wav）")
     ap.add_argument("--soundfont", default=None, help="SoundFont(.sf2)パス")
+    ap.add_argument("--style", default="orchestral",
+                    choices=["orchestral", "fingerstyle"],
+                    help="ミックススタイル（fingerstyle=Knopfler風ディレイ）")
     args = ap.parse_args()
 
     if not Path(args.midi).exists():
@@ -109,7 +125,7 @@ def main():
 
     print(f"SoundFont: {sf2}")
     midi_to_wav(args.midi, sf2, raw)
-    mix_and_master(raw, out)
+    mix_and_master(raw, out, style=args.style)
     Path(raw).unlink(missing_ok=True)
     print(f"\n劇伴完成: {out}")
 

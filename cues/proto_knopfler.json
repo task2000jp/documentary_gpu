@@ -1,0 +1,15 @@
+{
+  "id": "proto_knopfler",
+  "duration": 60.0,
+  "key": "A",
+  "mode": "mixolydian",
+  "tempo": 96,
+  "emotion": "scottish_heroic",
+  "motif": "highland",
+  "motif_treatment": "full",
+  "style": "fingerstyle",
+  "instrumentation": ["electric_guitar_clean", "electric_guitar_clean", "strings", "bass_guitar"],
+  "dynamic_arc": "build",
+  "harmony": "I-IV-I-V-IV-I",
+  "_note": "Mark Knopfler / Local Hero 風の試作。スコットランド・プロローグ用。原曲引用なしのオリジナル旋律。"
+}

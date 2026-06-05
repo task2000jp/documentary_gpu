@@ -21,7 +21,14 @@ GM = {
     "strings": 48, "organ": 19, "low_brass": 57, "brass": 61,
     "choir": 52, "piano": 0, "harp": 46, "flute": 73, "timpani": 47,
     "solo_cello": 42, "solo_violin": 40, "oboe": 68, "horn": 60,
+    # ギター/バンド（Knopfler風フィンガースタイル等）
+    "electric_guitar_clean": 27, "acoustic_steel": 25, "electric_guitar_muted": 28,
+    "nylon_guitar": 24, "bass_guitar": 33, "picked_bass": 34,
 }
+
+# フィンガーピッキングのロール（三和音インデックス+オクターブ表現）
+# 0=root,1=3rd,2=5th, +o=オクターブ上。Knopfler風の流れる8分アルペジオ。
+_PICK_PATTERN = [(0, 0), (2, 0), (0, 1), (1, 0), (2, 0), (1, 0), (0, 1), (2, 0)]
 
 # 旋法ごとのデフォルト和声進行（旋法非指定時）
 DEFAULT_PROGRESSION = {
@@ -78,6 +85,19 @@ def _part(program: int, name: str) -> stream.Part:
     return p
 
 
+def _arpeggiate(part: stream.Part, triad: list[int], total_q: float, vel: int):
+    """三和音を8分音符のフィンガーピッキングに展開（Knopfler風）。"""
+    n_eighths = max(1, int(round(total_q / 0.5)))
+    for k in range(n_eighths):
+        idx, octv = _PICK_PATTERN[k % len(_PICK_PATTERN)]
+        p = triad[idx] + 12 * octv
+        n = note.Note(p, quarterLength=0.5)
+        # 拍頭をやや強く（グルーヴ）
+        accent = 1.0 if k % 2 == 0 else 0.82
+        n.volume.velocity = int(max(28, min(120, vel * accent)))
+        part.append(n)
+
+
 def compose_cue(cue: dict) -> stream.Score:
     key_name = cue.get("key", "C")
     mode = cue.get("mode", "ionian")
@@ -106,20 +126,31 @@ def compose_cue(cue: dict) -> stream.Score:
     score.insert(0, tempo.MetronomeMark(number=bpm))
 
     # ── 役割割り当て ──
+    style = cue.get("style", "orchestral")  # orchestral | fingerstyle
     melodic = insts[0]
     pad_insts = insts[1:2] or [insts[0]]
     bass_inst = insts[-1]
 
-    # ── 和声パッド ──
-    pad = _part(GM.get(pad_insts[0], 48), f"pad:{pad_insts[0]}")
+    # ── 和声：fingerstyle=アルペジオ / orchestral=持続パッド ──
+    pad = _part(GM.get(pad_insts[0], 48), f"{'arp' if style=='fingerstyle' else 'pad'}:{pad_insts[0]}")
     bass = _part(GM.get(bass_inst, 57), f"bass:{bass_inst}")
+    soft_pad = None
+    if style == "fingerstyle" and len(insts) >= 4:
+        soft_pad = _part(GM.get(insts[2], 48), f"pad:{insts[2]}")  # 温かみの弦パッド
     for i, rn in enumerate(slots):
         deg = _roman_to_degree(rn)
-        triad = _diatonic_triad(tonic_midi + 12, mode, deg)  # パッドは1oct上
+        triad = _diatonic_triad(tonic_midi + 12, mode, deg)
         v = int(40 + 60 * vels[i])
-        ch = chord.Chord(triad, quarterLength=slot_q)
-        ch.volume.velocity = v
-        pad.append(ch)
+        if style == "fingerstyle":
+            _arpeggiate(pad, triad, slot_q, v)
+            if soft_pad is not None:
+                sc = chord.Chord([t - 12 for t in triad], quarterLength=slot_q)
+                sc.volume.velocity = int(v * 0.45)  # 控えめに敷く
+                soft_pad.append(sc)
+        else:
+            ch = chord.Chord(triad, quarterLength=slot_q)
+            ch.volume.velocity = v
+            pad.append(ch)
         # バス＝根音（さらに1oct下）
         b = note.Note(triad[0] - 24, quarterLength=slot_q)
         b.volume.velocity = int(v * 0.9)
@@ -127,9 +158,11 @@ def compose_cue(cue: dict) -> stream.Score:
 
     # ── 主題（ライトモチーフ）──
     mel = _part(GM.get(melodic, 48), f"melody:{melodic}")
+    # ギター(fingerstyle)は1oct上、管弦は2oct上で歌わせる（楽器の音域に合わせる）
+    mel_oct = 12 if style == "fingerstyle" else 24
     realized = leitmotif.realize(
         cue.get("motif", "victory"),
-        tonic_midi + 24,                       # 主題は2oct上で歌わせる
+        tonic_midi + mel_oct,
         mode,
         cue.get("motif_treatment", "full"),
     )
@@ -151,6 +184,8 @@ def compose_cue(cue: dict) -> stream.Score:
 
     score.insert(0, mel)
     score.insert(0, pad)
+    if soft_pad is not None:
+        score.insert(0, soft_pad)
     score.insert(0, bass)
     return score
 
