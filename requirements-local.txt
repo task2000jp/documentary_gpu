@@ -25,4 +25,8 @@ google-auth
 google-auth-oauthlib
 google-api-python-client
 
+# ── 音楽：理論based作曲（MIDI生成まではローカル・純Python）──
+music21                     # 作曲・和声理論・MIDI書き出し
+# ※ MIDI→音声(FluidSynth)・ミックス(pedalboard)・LUFS(pyloudnorm)はColab側
+
 # ※ GPUモデル(torch/transformers/diffusers/accelerate)は requirements-colab.txt 参照

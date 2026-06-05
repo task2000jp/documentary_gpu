@@ -1,0 +1,17 @@
+{
+  "id": "ch6_reformation",
+  "duration": 90.0,
+  "key": "D",
+  "mode": "dorian",
+  "tempo": 72,
+  "emotion": "breakthrough",
+  "motif": "victory",
+  "motif_treatment": "triumphant",
+  "instrumentation": ["strings", "organ", "low_brass"],
+  "dynamic_arc": "build",
+  "harmony": "i-VII-III-VII-i",
+  "texture_layer": {
+    "prompt": "sacred reverberant choir pad, distant, solemn",
+    "gain": 0.18
+  }
+}

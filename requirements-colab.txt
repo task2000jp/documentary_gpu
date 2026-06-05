@@ -27,6 +27,14 @@ soundfile
 imageio
 imageio-ffmpeg
 
+# ── 音楽：理論based劇伴（MP1-MP3）──
+music21                     # 作曲・MIDI生成
+pedalboard                  # ミックス（reverb/EQ/comp・Spotify製）
+pyloudnorm                  # -16 LUFS マスタリング
+soundfile                   # wav I/O
+# FluidSynth本体とSoundFontはapt: fluidsynth fluid-soundfont-gm
+# AIテクスチャ(MP5・任意): stable-audio-tools / audiocraft
+
 # ── 共通 ──
 Pillow
 numpy
