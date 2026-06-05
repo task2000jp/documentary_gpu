@@ -112,16 +112,19 @@ def upload(video_path: str, meta: dict, schedule_dt: datetime = None) -> str:
     video_id = resp["id"]
     print(f"  [upload] 完了: https://youtu.be/{video_id}")
 
-    # サムネイル設定
+    # サムネイル設定（チャンネル確認済みの場合のみ可能）
     thumb = meta.get("thumbnail")
     if thumb and Path(thumb).exists():
         if not Path(thumb).is_absolute():
             thumb = str(BASE / thumb)
-        youtube.thumbnails().set(
-            videoId=video_id,
-            media_body=MediaFileUpload(thumb, mimetype="image/jpeg"),
-        ).execute()
-        print(f"  [thumb] 設定済み: {Path(thumb).name}")
+        try:
+            youtube.thumbnails().set(
+                videoId=video_id,
+                media_body=MediaFileUpload(thumb, mimetype="image/jpeg"),
+            ).execute()
+            print(f"  [thumb] 設定済み: {Path(thumb).name}")
+        except Exception as e:
+            print(f"  [thumb] スキップ（チャンネル確認が必要）: {e}")
 
     # プレイリストに追加
     playlist_id = meta.get("playlist_id")
