@@ -9,18 +9,21 @@
 2. `docs/research_2026.md` — なぜこの構成なのか（調査の根拠）
 3. `docs/scene_schema.md` — シーン定義の書き方
 
-## 1. ローカルで最小動作確認（Phase 1）
+## 1. ローカルで最小動作確認（設計/コーディング用・torch不要）
 
 ```bash
 cd documentary_gpu
-pip install torch numpy Pillow transformers
-brew install ffmpeg            # mac（Colabは不要）
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements-local.txt   # torchは入れない
+brew install ffmpeg                                # mac
 
-python scripts/pipeline.py status
+.venv/bin/python scripts/pipeline.py status
+.venv/bin/python scripts/pipeline.py doctor
 ```
 
-CPU でも自前 grid_sample パララックスは動く（遅いだけ）。
-GPU が無くても「立体的な動き」の質感は確認できる。
+ローカルは設計・シーンJSON・状態確認まで。
+**パララックスの実レンダリングはGPUが要るのでColabで実行する**
+（README先頭の「Open In Colab」バッジ → セル5で試写）。
 
 ## 2. 既存アセットを引き継ぐ
 
