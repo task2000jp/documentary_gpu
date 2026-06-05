@@ -17,7 +17,7 @@ const GROQ_MODEL = 'llama-3.3-70b-versatile';   // 研究品質重視（RPD=1000
 
 const SHEETS = {
   gap: '論旨ギャップ', draft: '昇格ドラフト', improve: '研究改善ログ',
-  radar: '技術レーダー', report: 'レポート', market: '市況'
+  radar: '技術レーダー', report: 'レポート', market: '市況', edge: 'エッジ'
 };
 
 // 市況ウォッチリスト（インフラ最前線＝論旨鎖の現在地を映す銘柄）
@@ -67,7 +67,10 @@ function runAll() {
   draftPromotions_(2);       // resolved→content_design草案+品質ゲート
   Utilities.sleep(1500);
   marketSnapshot_();         // ②経済: 市況スナップショット（今の勝者を時系列で観測）
+  Utilities.sleep(1500);
+  expandConnections_(2);     // 連関グラフを成長（全ては繋がる＝エッジで体系化）
   var dow = Number(Utilities.formatDate(new Date(), 'Asia/Tokyo', 'u')); // 1=月..7=日
+  if (dow === 2 || dow === 5) { Utilities.sleep(1500); harvestTrends_(); } // 火金: 大衆トレンド
   if (dow === 4) { Utilities.sleep(2000); techRadar_(6); }   // 木: ③技術レーダー
   if (dow === 1) {                                            // 月: 自己深化+週次レポート
     Utilities.sleep(2000); selfDeepen_();
@@ -309,6 +312,125 @@ function alpacaGet_(url, key, sec) {
 }
 
 // ============================================================
+// 連関グラフ — 全ては繋がる（ノード=論旨ギャップ, エッジ=関係）
+// バラバラな事象でなく、因果/経済/技術/地政の「網」として体系的に扱う＝再説明不要でトークン減。
+// ============================================================
+function expandConnections_(maxNodes) {
+  var gsheet = _sheet_(SHEETS.gap, GAP_HEADERS_());
+  var data = gsheet.getDataRange().getValues();
+  var esheet = _sheet_(SHEETS.edge, EDGE_HEADERS_());
+  var labels = [];
+  for (var i = 1; i < data.length; i++) { if (data[i][COL.phenom]) labels.push(data[i][COL.phenom]); }
+  var edges = esheet.getDataRange().getValues();
+  var linked = {};
+  for (var j = 1; j < edges.length; j++) { linked[edges[j][0]] = (linked[edges[j][0]] || 0) + 1; }
+
+  // フロンティア選抜: 重要/解決済み かつ エッジが少ない事象を優先
+  var cands = [];
+  for (var k = 1; k < data.length; k++) {
+    var ph = data[k][COL.phenom]; if (!ph) continue;
+    var score = (data[k][COL.prio] === 'high' ? 2 : 1)
+              + (data[k][COL.status] === 'resolved' ? 1 : 0) - (linked[ph] || 0);
+    cands.push({ ph: ph, dom: data[k][COL.domain], score: score });
+  }
+  cands.sort(function (a, b) { return b.score - a.score; });
+  var today = _today_(), newNodes = 0;
+
+  cands.slice(0, maxNodes).forEach(function (c) {
+    var prompt = THESIS + '\n\n事象「' + c.ph + '」(領域:' + c.dom + ')が、歴史・経済・技術・地政の' +
+      '因果で何に繋がるかを最大5つ。可能な限り次の既存事象から繋ぐ:\n' + labels.slice(0, 60).join(' / ') + '\n' +
+      '関係はenables/causes/funds/threatens/competes/succeeds_via/supplies/controls等。' +
+      '根拠を一言、確信度0〜1。連関は捏造でなく発見せよ。' +
+      '必ずJSONのみ: {"edges":[{"to":"","relation":"","basis":"","confidence":0.7,"is_new":false}]}';
+    var res = callGroq_(prompt), out = null;
+    if (res) { try { out = JSON.parse(_clean_(res)); } catch (e) {} }
+    if (!out || !out.edges) return;
+    out.edges.forEach(function (ed) {
+      if (!ed.to) return;
+      esheet.appendRow([c.ph, toStr_(ed.to), toStr_(ed.relation), toStr_(ed.basis), ed.confidence || '', today]);
+      if (ed.is_new && labels.indexOf(ed.to) < 0 && newNodes < 3) {
+        var nid = 'gap_' + ('000' + (_maxGapNum_(gsheet) + 1)).slice(-3);
+        var row = [];
+        row[COL.id] = nid; row[COL.domain] = '連関/' + String(c.dom || '').split('/').pop();
+        row[COL.phenom] = toStr_(ed.to); row[COL.stype] = '外的'; row[COL.persp] = 'random';
+        row[COL.qMech] = 'なぜ成立し何を動かしたか'; row[COL.qMacro] = '論旨鎖・地政の連関でどこに位置するか';
+        row[COL.qMicro] = '人間のどの性質(恐れ/支配欲/帰属/超越)に根ざすか'; row[COL.hypo] = '';
+        row[COL.counter] = ''; row[COL.prio] = 'medium'; row[COL.status] = 'open'; row[COL.insight] = '';
+        row[COL.target] = ''; row[COL.source] = 'expandConnections'; row[COL.updated] = today;
+        gsheet.appendRow(row); labels.push(ed.to); newNodes++;
+      }
+    });
+    Utilities.sleep(1500);
+  });
+  Logger.log('expandConnections: 展開' + Math.min(maxNodes, cands.length) + '・新規ノード' + newNodes);
+}
+
+// 大衆トレンドを網に流す（YouTube急上昇→ノード化）
+function harvestTrends_() {
+  var key = PropertiesService.getScriptProperties().getProperty('YOUTUBE_API_KEY');
+  if (!key) { Logger.log('harvestTrends: YOUTUBE_API_KEY未設定→スキップ'); return; }
+  var titles = [];
+  try {
+    var url = 'https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular' +
+      '&regionCode=JP&maxResults=15&key=' + key;
+    var items = (JSON.parse(UrlFetchApp.fetch(url, { muteHttpExceptions: true }).getContentText()).items) || [];
+    titles = items.map(function (it) { return it.snippet && it.snippet.title; }).filter(Boolean);
+  } catch (e) { Logger.log('trend取得失敗: ' + e.message); return; }
+  if (!titles.length) return;
+
+  var prompt = THESIS + '\n\n日本のYouTube急上昇タイトル:\n' + titles.join('\n') + '\n\n' +
+    'ここから「なぜ流行ったか調査価値のある大衆トレンド事象」を3つ抽出。' +
+    '各: phenomenon(具体), success_type(シャローム5次元), q_mechanism, q_micro(被造設計)。' +
+    '必ずJSONのみ: {"trends":[{"phenomenon":"","success_type":"","q_mechanism":"","q_micro":""}]}';
+  var res = callGroq_(prompt), out = null;
+  if (res) { try { out = JSON.parse(_clean_(res)); } catch (e) {} }
+  if (!out || !out.trends) return;
+
+  var gsheet = _sheet_(SHEETS.gap, GAP_HEADERS_()), today = _today_();
+  out.trends.forEach(function (t) {
+    var nid = 'gap_' + ('000' + (_maxGapNum_(gsheet) + 1)).slice(-3);
+    var row = [];
+    row[COL.id] = nid; row[COL.domain] = '成功法則/大衆トレンド'; row[COL.phenom] = toStr_(t.phenomenon);
+    row[COL.stype] = toStr_(t.success_type) || '内面的'; row[COL.persp] = 'trend';
+    row[COL.qMech] = toStr_(t.q_mechanism);
+    row[COL.qMacro] = 'メディア革命→IT→ペイロードの論旨鎖でどう位置づくか';
+    row[COL.qMicro] = toStr_(t.q_micro); row[COL.hypo] = ''; row[COL.counter] = '';
+    row[COL.prio] = 'medium'; row[COL.status] = 'open'; row[COL.insight] = '';
+    row[COL.target] = ''; row[COL.source] = 'YouTube急上昇'; row[COL.updated] = today;
+    gsheet.appendRow(row);
+  });
+  Logger.log('harvestTrends: ' + out.trends.length + '件のトレンドノード');
+}
+
+// 連関スパインの初期投入（一度だけ手動実行）: ユーザー指定の地政・経済・技術の骨格
+function seedSpine_() {
+  var spine = [
+    ['経済', '産業革命'], ['地政学', 'イスラム世界の植民地化'], ['地政学', '中東問題'],
+    ['地政学', 'イスラエル建国'], ['地政学', 'イラン・イスラエル対立'], ['技術', '軍事ミサイル技術'],
+    ['技術', '半導体'], ['経済', 'ペトロダラー体制'], ['経済', '中国の経済台頭'],
+    ['技術', 'AI革命'], ['技術', 'NVIDIA']
+  ];
+  var gsheet = _sheet_(SHEETS.gap, GAP_HEADERS_()), today = _today_();
+  var existing = {}; var d = gsheet.getDataRange().getValues();
+  for (var i = 1; i < d.length; i++) { existing[d[i][COL.phenom]] = true; }
+  var n = 0;
+  spine.forEach(function (s) {
+    if (existing[s[1]]) return;
+    var nid = 'gap_' + ('000' + (_maxGapNum_(gsheet) + 1)).slice(-3);
+    var row = [];
+    row[COL.id] = nid; row[COL.domain] = s[0] + '/連関スパイン'; row[COL.phenom] = s[1];
+    row[COL.stype] = '外的'; row[COL.persp] = 'random';
+    row[COL.qMech] = 'なぜ成立し何を動かしたか';
+    row[COL.qMacro] = '福音→産業→メディア→IT→AI基盤＋地政の連関でどこに位置するか';
+    row[COL.qMicro] = 'どの人間性(恐れ/支配欲/帰属/超越)に根ざすか';
+    row[COL.hypo] = ''; row[COL.counter] = ''; row[COL.prio] = 'high'; row[COL.status] = 'open';
+    row[COL.insight] = ''; row[COL.target] = ''; row[COL.source] = 'seedSpine'; row[COL.updated] = today;
+    gsheet.appendRow(row); n++;
+  });
+  Logger.log('seedSpine: ' + n + '件の連関スパインを投入');
+}
+
+// ============================================================
 // 自己深化 — 偏り点検→次の攻め方（→翌日の生成へ還流）
 // ============================================================
 function selfDeepen_() {
@@ -358,12 +480,19 @@ function weeklyDigest_() {
     return '・' + r[0] + ' [' + r[1] + '] ' + r[2] + ' ' + r[3] + ' (' + r[4] + '%)';
   });
 
+  // 連関グラフ: 高確信のエッジ（全ては繋がる＝網として語る材料）
+  var edg = _sheet_(SHEETS.edge, EDGE_HEADERS_()).getDataRange().getValues();
+  var edgeLines = edg.slice(1).filter(function (r) { return (Number(r[4]) || 0) >= 0.6; })
+    .slice(-40).map(function (r) { return '・' + r[0] + ' --[' + r[2] + ']--> ' + r[1] + ' (' + r[3] + ')'; });
+
   var prompt = THESIS + '\n\n以下の今週の研究断片を、読める週次レポート(Markdown)に統合せよ。\n' +
-    '構成: # 今週の発見 / ## 成功法則 / ## 経済・市況の今 / ## 技術動向 / ## 論旨への影響 / ## 次の問い。\n' +
-    '【市況の読み方】時価総額/値動きの先頭＝インフラ最前線＝論旨鎖(福音→産業→メディア→IT→AI基盤)の現在地。' +
-    '今の勝者は誰か・先週から何が変わったか・なぜか・本作の論旨とどう接続するか(例 NVDA=AI基盤=鎖の最前線)を分析せよ。\n\n' +
+    '構成: # 今週の発見 / ## 成功法則 / ## 経済・市況の今 / ## 技術動向 / ## 連関(網)の物語 / ## 論旨への影響 / ## 次の問い。\n' +
+    '【市況の読み方】時価総額/値動きの先頭＝インフラ最前線＝論旨鎖(福音→産業→メディア→IT→AI基盤)の現在地。\n' +
+    '【連関の物語】エッジを辿り「産業革命→植民地→中東→ペトロダラー→半導体→AI」のような' +
+    '繋がった鎖を1本の物語として描け。バラバラに列挙せず網として語る。今その網の緊張/最前線はどこか。\n\n' +
     '断片(洞察):\n' + recentInsights.join('\n') +
-    '\n\n市況スナップショット:\n' + (mktLines.join('\n') || '(市況データなし=ALPACAキー未設定)') +
+    '\n\n市況:\n' + (mktLines.join('\n') || '(市況なし=ALPACAキー未設定)') +
+    '\n\n連関エッジ:\n' + (edgeLines.join('\n') || '(エッジ未蓄積)') +
     '\n\n技術レーダー:\n' + radarLines.join('\n') + '\n\n' +
     '必ずJSONのみ: {"report_md":""}';
   var res = callGroq_(prompt);
@@ -465,6 +594,7 @@ function IMPROVE_HEADERS_() { return ['日付', '偏りの所見', '次に厚く
 function RADAR_HEADERS_() { return ['日付', 'クエリ', 'ツール/論文', '概要', 'URL', '置換対象', '状態']; }
 function REPORT_HEADERS_() { return ['日付', '週次レポート(markdown)']; }
 function MARKET_HEADERS_() { return ['日付', '区分', 'シンボル', '価格', '前日比%', 'メモ']; }
+function EDGE_HEADERS_() { return ['from事象', 'to事象', '関係', '根拠', '確信度', '更新日']; }
 
 // ============================================================
 // トリガー（初回のみ手動実行）
