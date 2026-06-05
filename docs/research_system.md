@@ -74,20 +74,25 @@
 Claudeは「自動化を作る／稀に監査・昇格する」端役に退く。手動の一回限り研究はしない。
 
 ```
-[毎日・全自動 GAS+Groq] gas/research.gs runResearchAll()
-  A 生成   generateGaps_   : 偏りなき二軸ギャップを生成 → 論旨ギャップ(open)
-  B 調査合成 researchOpenGaps_: open を一次調査(Wikipedia等)+Groq合成 → 洞察(resolved)
-  C 自己深化 selfDeepen_    : 週1 キュー偏り点検→次の攻め方を提案 → 研究改善ログ
-        ▼ 知識がSheetsに自己増殖（人もClaudeも不在で）
+[毎日・全自動 GAS+Groq70b] gas/research.gs runResearchAll()
+  生成    generateGaps_    : 偏りなき二軸ギャップ生成 → 論旨ギャップ(open)
+                            ↑C 研究改善ログの最新点検を読んで生成を是正（自己改善ループ）
+  A調査合成 researchOpenGaps_: open を【多源】調査(日Wikipedia+英Wikipedia+arxiv認知科学)
+                            +Groq合成 → 洞察(resolved)。被造設計軸をarxivで裏づけ
+  B昇格起案 draftPromotions_: resolved → content_design草案を自動起案＋品質ゲート自己適用
+                            (出典/対抗仮説/神学整合) → 昇格ドラフト(待承認), gap→proposed
+  C自己深化 selfDeepen_     : 週1 キュー偏り点検→次の攻め方 → 研究改善ログ → 生成へ還流
+        ▼ 知識がSheetsに自己増殖し、システム自体も自己改善（人もClaudeも不在で）
 
-[稀・Claude] 監査と昇格（高コストゆえ最小化）
-  resolved の中から質の高い洞察を選び、品質ゲート通過 → content_design 統合(vアップ)
+[稀・人/Claude] 昇格承認のみ（高コストゆえ最小化）
+  昇格ドラフトを確認 → 良ければ content_design.md に貼る(vアップ)。起案は自動、承認だけ人。
   ＋ 自動化自体の改善（このシステムを作る/直す）= 我々の会話の本来の目的
 
 [大型のみ] deep-research skill / research-specialist(脳科学) ← ユーザー指示時
 ```
 
-groq-compoundは使わない（413多発／メモリ参照）。GASのGroqは collector.gs の callGemini を再利用。
+groq-compoundは使わない（413多発／メモリ参照）。研究用GroqはcallGroq_(llama-3.3-70b・JSON強制)。
+**自己改善ループの閉鎖**: selfDeepen_→研究改善ログ→generateGaps_が翌日読む→生成が是正される。
 
 ### 自動化と人間ゲートの境界
 GASは**知識ベース(Sheets)を自律的に積み上げる**。canonical な `content_design.md`(git)への統合だけは
@@ -96,10 +101,18 @@ GASは**知識ベース(Sheets)を自律的に積み上げる**。canonical な 
 
 ---
 
-## 5. データモデル：Sheets「論旨ギャップ」
+## 5. データモデル：Sheets 3タブ
 
-ID / 領域 / 事象 / **成功次元** / **視点** / 問い(成功の機序) / 問い(マクロ相関) / **問い(被造設計)** /
+**論旨ギャップ**（メインキュー・16列）:
+ID / 領域 / 事象 / **成功次元** / **視点** / 問い(機序) / 問い(マクロ相関) / **問い(被造設計)** /
 初期仮説 / 対抗仮説 / 優先度 / 状態 / 洞察 / 統合先 / 出典 / 更新日
+状態遷移: open → researching → resolved → proposed →(承認)→ integrated
+
+**昇格ドラフト**（B出力・承認待ち）:
+日付 / gap_id / 事象 / 統合先 / content_design草案(md) / 出典 / 対抗仮説チェック / 神学整合 / 品質ゲート / 承認状態
+
+**研究改善ログ**（C出力・生成へ還流）:
+日付 / 偏りの所見 / 次に厚くする領域 / 新しい問いの型 / 成功次元分布 / 視点分布
 
 ---
 
@@ -114,12 +127,12 @@ ID / 領域 / 事象 / **成功次元** / **視点** / 問い(成功の機序) /
 
 | 部品 | 役割 | 状態 |
 |---|---|---|
-| `scripts/research_engine.py` | 二軸・多次元・偏りなきギャップ問いを生成（L1）| 実装 |
-| Sheets「論旨ギャップ」 | 問い・調査・洞察のキュー | 運用 |
-| Claude + WebSearch/WebFetch | L2 マクロ深堀り・合成・整合 | 運用 |
-| **research-specialist** agent | L2/L3 ミクロ（脳科学・行動変容）| 運用（ユーザー指示時に起動）|
-| `deep-research` skill | L3 大型ギャップ | 運用 |
-| GAS thesis-gap ループ | L1毎日自律 | 設計 |
+| `gas/research.gs` | 全自動: 生成/多源調査/昇格起案/自己改善（毎朝8時）| ✅実装 |
+| Sheets 3タブ | 論旨ギャップ/昇格ドラフト/研究改善ログ | ✅運用 |
+| `scripts/research_engine.py` | 手元検証用のギャップ生成（Claude/CLI）| ✅実装 |
+| **research-specialist** agent | 大型のミクロ深掘り（脳科学）| 運用（指示時）|
+| `deep-research` skill | 大型ギャップの徹底研究 | 運用（指示時）|
+| 人/Claude | 昇格ドラフトの承認のみ・自動化の改善 | 運用 |
 
 ---
 
