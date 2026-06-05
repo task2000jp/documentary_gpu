@@ -68,20 +68,31 @@
 
 ---
 
-## 4. 3層アーキテクチャ（コストと深さ）
+## 4. 自動化アーキテクチャ（Claudeを端へ・GASが回す）
+
+**原則: 日々の研究・分析・自己深化は全自動（GAS+Groq・無料・Claudeトークン0）。**
+Claudeは「自動化を作る／稀に監査・昇格する」端役に退く。手動の一回限り研究はしない。
 
 ```
-L1 自律収集 [GAS+Groq・毎日・無料・Claudeトークン0]
-   偏りなき問い(二軸)を生成 → Sheets「論旨ギャップ」キュー
-        ▼
-L2 深堀り統合 [Claude司令・随時・中]
-   マクロ=WebSearch / ミクロ=research-specialist(脳科学) → 洞察合成 → 整合チェック → 統合
-        ▼
-L3 徹底研究 [deep-research skill・大型のみ・稀]
-   多源fan-out + 反証検証 + 引用 → content_design 新節
+[毎日・全自動 GAS+Groq] gas/research.gs runResearchAll()
+  A 生成   generateGaps_   : 偏りなき二軸ギャップを生成 → 論旨ギャップ(open)
+  B 調査合成 researchOpenGaps_: open を一次調査(Wikipedia等)+Groq合成 → 洞察(resolved)
+  C 自己深化 selfDeepen_    : 週1 キュー偏り点検→次の攻め方を提案 → 研究改善ログ
+        ▼ 知識がSheetsに自己増殖（人もClaudeも不在で）
+
+[稀・Claude] 監査と昇格（高コストゆえ最小化）
+  resolved の中から質の高い洞察を選び、品質ゲート通過 → content_design 統合(vアップ)
+  ＋ 自動化自体の改善（このシステムを作る/直す）= 我々の会話の本来の目的
+
+[大型のみ] deep-research skill / research-specialist(脳科学) ← ユーザー指示時
 ```
-自律・絶え間ない部分はGASに（無料・起動トークン0）。知性が要る統合はClaudeが随時。
-groq-compoundは使わない（413多発／メモリ参照）。
+
+groq-compoundは使わない（413多発／メモリ参照）。GASのGroqは collector.gs の callGemini を再利用。
+
+### 自動化と人間ゲートの境界
+GASは**知識ベース(Sheets)を自律的に積み上げる**。canonical な `content_design.md`(git)への統合だけは
+品質ゲート（出典/対抗仮説/神学整合）を通す**昇格**で、Claude/人が承認。
+→ 昇格用ドラフトもGroqが自動起案（研究改善ログ）。人は承認するだけ。
 
 ---
 
