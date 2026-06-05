@@ -17,8 +17,12 @@ const GROQ_MODEL = 'llama-3.3-70b-versatile';   // 研究品質重視（RPD=1000
 
 const SHEETS = {
   gap: '論旨ギャップ', draft: '昇格ドラフト', improve: '研究改善ログ',
-  radar: '技術レーダー', report: 'レポート'
+  radar: '技術レーダー', report: 'レポート', market: '市況'
 };
+
+// 市況ウォッチリスト（インフラ最前線＝論旨鎖の現在地を映す銘柄）
+// AI基盤/半導体・プラットフォーム・メディア。時系列で「今の勝者」を観測。
+const WATCHLIST = ['NVDA', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'AMD', 'TSM', 'AVGO', 'TSLA'];
 
 // 3本柱（weight＝1日あたりの生成比率）
 const PILLARS = [
@@ -61,6 +65,8 @@ function runAll() {
   researchOpenGaps_(3);      // 多源調査(日英Wikipedia+arxiv脳科学)→洞察
   Utilities.sleep(2000);
   draftPromotions_(2);       // resolved→content_design草案+品質ゲート
+  Utilities.sleep(1500);
+  marketSnapshot_();         // ②経済: 市況スナップショット（今の勝者を時系列で観測）
   var dow = Number(Utilities.formatDate(new Date(), 'Asia/Tokyo', 'u')); // 1=月..7=日
   if (dow === 4) { Utilities.sleep(2000); techRadar_(6); }   // 木: ③技術レーダー
   if (dow === 1) {                                            // 月: 自己深化+週次レポート
@@ -258,6 +264,51 @@ function techRadar_(n) {
 }
 
 // ============================================================
+// ② 市況スナップショット — 「今の勝者」を時系列で観測（Alpaca）
+// ============================================================
+// 時価総額/値動きの先頭＝インフラ最前線＝論旨鎖の現在地。Apple→Nvidiaの交代を捉える。
+// 要: スクリプトプロパティ ALPACA_KEY / ALPACA_SECRET（無料データAPI）。無ければスキップ。
+function marketSnapshot_() {
+  var key = PropertiesService.getScriptProperties().getProperty('ALPACA_KEY');
+  var sec = PropertiesService.getScriptProperties().getProperty('ALPACA_SECRET');
+  if (!key || !sec) { Logger.log('marketSnapshot: ALPACAキー未設定→スキップ'); return; }
+  var sheet = _sheet_(SHEETS.market, MARKET_HEADERS_());
+  var today = _today_(); var n = 0;
+
+  // ① 値動き上位（今ホットな勝者/敗者）
+  try {
+    var mv = alpacaGet_('https://data.alpaca.markets/v1beta1/screener/stocks/movers?top=8', key, sec);
+    (mv.gainers || []).slice(0, 6).forEach(function (g) {
+      sheet.appendRow([today, 'gainer', g.symbol, g.price, g.percent_change, '']); n++;
+    });
+    (mv.losers || []).slice(0, 3).forEach(function (g) {
+      sheet.appendRow([today, 'loser', g.symbol, g.price, g.percent_change, '']); n++;
+    });
+  } catch (e) { Logger.log('movers取得失敗: ' + e.message); }
+
+  // ② ウォッチリスト（インフラ最前線銘柄の前日比）
+  try {
+    var snap = alpacaGet_('https://data.alpaca.markets/v2/stocks/snapshots?symbols='
+      + WATCHLIST.join(','), key, sec);
+    WATCHLIST.forEach(function (sym) {
+      var s = snap[sym]; if (!s) return;
+      var price = s.latestTrade && s.latestTrade.p;
+      var prev = s.prevDailyBar && s.prevDailyBar.c;
+      var chg = (price && prev) ? Math.round((price - prev) / prev * 10000) / 100 : '';
+      sheet.appendRow([today, 'watch', sym, price || '', chg, '']); n++;
+    });
+  } catch (e) { Logger.log('snapshot取得失敗: ' + e.message); }
+
+  Logger.log('marketSnapshot: ' + n + '件記録');
+}
+
+function alpacaGet_(url, key, sec) {
+  var res = UrlFetchApp.fetch(url, { muteHttpExceptions: true,
+    headers: { 'APCA-API-KEY-ID': key, 'APCA-API-SECRET-KEY': sec } });
+  return JSON.parse(res.getContentText());
+}
+
+// ============================================================
 // 自己深化 — 偏り点検→次の攻め方（→翌日の生成へ還流）
 // ============================================================
 function selfDeepen_() {
@@ -301,9 +352,19 @@ function weeklyDigest_() {
   var radar = _sheet_(SHEETS.radar, RADAR_HEADERS_()).getDataRange().getValues();
   var radarLines = radar.slice(-8).map(function (r) { return '・' + r[2] + ': ' + r[3]; });
 
+  // 市況: 直近スナップショット（今の勝者＝インフラ最前線）
+  var mkt = _sheet_(SHEETS.market, MARKET_HEADERS_()).getDataRange().getValues();
+  var mktLines = mkt.slice(-30).map(function (r) {
+    return '・' + r[0] + ' [' + r[1] + '] ' + r[2] + ' ' + r[3] + ' (' + r[4] + '%)';
+  });
+
   var prompt = THESIS + '\n\n以下の今週の研究断片を、読める週次レポート(Markdown)に統合せよ。\n' +
-    '構成: # 今週の発見 / ## 成功法則 / ## 経済 / ## 技術動向 / ## 論旨への影響 / ## 次の問い。\n' +
-    '断片(洞察):\n' + recentInsights.join('\n') + '\n\n技術レーダー:\n' + radarLines.join('\n') + '\n\n' +
+    '構成: # 今週の発見 / ## 成功法則 / ## 経済・市況の今 / ## 技術動向 / ## 論旨への影響 / ## 次の問い。\n' +
+    '【市況の読み方】時価総額/値動きの先頭＝インフラ最前線＝論旨鎖(福音→産業→メディア→IT→AI基盤)の現在地。' +
+    '今の勝者は誰か・先週から何が変わったか・なぜか・本作の論旨とどう接続するか(例 NVDA=AI基盤=鎖の最前線)を分析せよ。\n\n' +
+    '断片(洞察):\n' + recentInsights.join('\n') +
+    '\n\n市況スナップショット:\n' + (mktLines.join('\n') || '(市況データなし=ALPACAキー未設定)') +
+    '\n\n技術レーダー:\n' + radarLines.join('\n') + '\n\n' +
     '必ずJSONのみ: {"report_md":""}';
   var res = callGroq_(prompt);
   var md = '';
@@ -403,6 +464,7 @@ function DRAFT_HEADERS_() { return ['日付', 'gap_id', '事象', '統合先', '
 function IMPROVE_HEADERS_() { return ['日付', '偏りの所見', '次に厚くする領域', '新しい問いの型', '成功次元分布', '柱分布']; }
 function RADAR_HEADERS_() { return ['日付', 'クエリ', 'ツール/論文', '概要', 'URL', '置換対象', '状態']; }
 function REPORT_HEADERS_() { return ['日付', '週次レポート(markdown)']; }
+function MARKET_HEADERS_() { return ['日付', '区分', 'シンボル', '価格', '前日比%', 'メモ']; }
 
 // ============================================================
 // トリガー（初回のみ手動実行）
