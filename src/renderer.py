@@ -80,7 +80,7 @@ def _resolve_image(bg: dict) -> Image.Image:
         import image_gen
         return image_gen.generate_background(
             bg["prompt"], style=bg.get("style", "cinematic"),
-            cache_key=bg.get("cache_key"))
+            cache_key=bg.get("cache_key"), negative=bg.get("negative"))
     path = bg["path"]
     if not Path(path).is_absolute():
         path = str(Path(__file__).parent.parent / path)

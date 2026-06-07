@@ -20,8 +20,11 @@ STYLE_PRESETS = {
     "epic_landscape": "epic wide landscape, volumetric light, atmospheric haze, "
                       "golden hour, highly detailed, cinematic",
 }
-NEGATIVE_BASE = "modern, contemporary, anachronistic, text, watermark, low quality, " \
-                "blurry, deformed, extra limbs, cartoon, anime, ugly"
+# 共通の否定語。"modern/contemporary/anachronistic" は歴史物(historical_oil)専用。
+# 現代・実写スタイルにこれを付けると「現代の工場を描くな」と自己矛盾するので外す。
+NEGATIVE_COMMON = "text, watermark, low quality, blurry, deformed, extra limbs, " \
+                  "cartoon, anime, ugly"
+NEGATIVE_HISTORICAL = "modern, contemporary, anachronistic, " + NEGATIVE_COMMON
 
 _pipe = None
 _backend = None
@@ -85,9 +88,10 @@ def _ensure_pipe():
 
 
 def generate_background(prompt: str, style: str = "cinematic",
-                        cache_key: str = None,
+                        cache_key: str = None, negative: str = None,
                         width: int = 1920, height: int = 1088) -> Image.Image:
-    """プロンプトから背景画像を生成。cache_key があれば再利用。"""
+    """プロンプトから背景画像を生成。cache_key があれば再利用。
+    negative: SDXLフォールバック時の否定文を明示上書き（省略時は style で自動選択）。"""
     if cache_key:
         p = CACHE_DIR / f"{cache_key}.png"
         if p.exists():
@@ -103,7 +107,9 @@ def generate_background(prompt: str, style: str = "cinematic",
                     num_inference_steps=4, guidance_scale=0.0,
                     generator=torch.Generator(DEVICE).manual_seed(42)).images[0]
     else:
-        img = _pipe(prompt=full, negative_prompt=NEGATIVE_BASE,
+        neg = negative or (NEGATIVE_HISTORICAL if style == "historical_oil"
+                           else NEGATIVE_COMMON)
+        img = _pipe(prompt=full, negative_prompt=neg,
                     width=width, height=height,
                     num_inference_steps=30, guidance_scale=7.5).images[0]
 

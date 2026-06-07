@@ -38,9 +38,12 @@
   "prompt": "Martin Luther nailing 95 theses to church door, dramatic light",
   "style": "historical_oil",   // historical_oil|cinematic|documentary|epic_landscape
   "cache_key": "luther_door",  // 再生成スキップ用
+  "negative": "...",           // 任意: SDXL否定文を上書き。省略時 styleで自動
   "motion": "dolly",
   "amplitude": 0.04
 }
+// 否定文の自動選択(SDXLフォールバック時): historical_oil のみ
+// "modern/contemporary/anachronistic" を除外。現代・実写styleでは付けない。
 ```
 
 ### gradient — タイトル用の単色グラデーション
