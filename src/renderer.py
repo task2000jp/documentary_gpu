@@ -69,7 +69,12 @@ def _base_clip(scene: dict, out: str) -> str:
         return video_gen.generate(bg["prompt"], out, duration=duration)
     if btype == "manim":
         import manim_render
-        return manim_render.render(bg["scene"], out)
+        try:
+            return manim_render.render(bg["scene"], out)
+        except Exception as e:  # ハング(timeout)/失敗 → 章を止めずプレースホルダで継続
+            print(f"  [manim] 失敗→グラデ代替: {type(e).__name__}: {e}")
+            return _gradient_clip(bg.get("fallback", {"colors": ["#06121f", "#0d3450"]}),
+                                  duration, out)
     # 不明 → グレーのプレースホルダ
     return _gradient_clip({"colors": ["#202020", "#101010"]}, duration, out)
 
