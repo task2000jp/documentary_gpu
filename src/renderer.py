@@ -17,6 +17,7 @@ from PIL import Image
 
 import compositor as comp
 import depth_parallax as dp
+import overlay_vector as ov
 
 W, H, FPS = 1920, 1080, 24
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -66,6 +67,9 @@ def _base_clip(scene: dict, out: str) -> str:
     if btype == "video_generated":
         import video_gen
         return video_gen.generate(bg["prompt"], out, duration=duration)
+    if btype == "manim":
+        import manim_render
+        return manim_render.render(bg["scene"], out)
     # 不明 → グレーのプレースホルダ
     return _gradient_clip({"colors": ["#202020", "#101010"]}, duration, out)
 
@@ -118,6 +122,7 @@ def _postprocess(in_clip: str, out_clip: str, scene: dict):
     vig = scene.get("vignette", 0.35)
     atmos = scene.get("atmosphere", 0.0)
     text_cfg = scene.get("text")
+    graphics = scene.get("graphics")
 
     text_rgba = None
     if text_cfg:
@@ -141,6 +146,9 @@ def _postprocess(in_clip: str, out_clip: str, scene: dict):
             frame = comp.vignette(frame, vig)
             frame = comp.atmosphere(frame, particles, atmos)
             frame = comp.film_grain(frame, grain)
+            if graphics:  # ベクター図解層（線/ノード/データ流）を実写の上に
+                g_rgba = ov.render_graphics_rgba(graphics, t, duration)
+                frame = comp.overlay_text(frame, g_rgba)
             if text_rgba is not None:
                 frame = comp.overlay_text(frame, text_rgba)
             frame = comp.fade(frame, t, duration,

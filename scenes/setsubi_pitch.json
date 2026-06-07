@@ -1,0 +1,139 @@
+[
+  {
+    "id": "sp_title",
+    "duration": 4.0,
+    "background": {"type": "gradient", "colors": ["#06121f", "#0d3450"]},
+    "text": {"content": "設備を、ソフトウェアへ", "style": "title"},
+    "grade": "cold", "vignette": 0.5, "grain": 0.03,
+    "fade_in": 0.8, "fade_out": 0.6
+  },
+  {
+    "id": "sp_problem",
+    "duration": 8.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "wide interior of a modern factory, large HVAC air conditioning ducts, water pipes and industrial machinery, dim cold light, isolated disconnected equipment, photorealistic, cinematic wide shot",
+      "style": "cinematic", "cache_key": "sp_factory_wide",
+      "motion": "pan_lr", "amplitude": 0.035
+    },
+    "text": {"content": "現場の設備は、つながっていない", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.45, "grain": 0.04,
+    "fade_in": 0.6, "fade_out": 0.5
+  },
+  {
+    "id": "sp_equipment",
+    "duration": 8.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "close up of modern industrial HVAC unit, water supply pipes and electrical control panel with gauges, factory mechanical equipment, photorealistic, cinematic shallow depth of field",
+      "style": "cinematic", "cache_key": "sp_equipment_closeup",
+      "motion": "dolly", "amplitude": 0.04
+    },
+    "graphics": [
+      {"type": "node", "at": [0.26, 0.40], "r": 0.045, "label": "空調", "pulse": true, "appear": [0.4, 1.2]},
+      {"type": "node", "at": [0.52, 0.62], "r": 0.045, "label": "給排水", "pulse": true, "appear": [1.0, 1.8]},
+      {"type": "node", "at": [0.76, 0.46], "r": 0.045, "label": "機械設備", "pulse": true, "appear": [1.6, 2.4]}
+    ],
+    "text": {"content": "空調・給排水・機械設備", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.45, "grain": 0.035,
+    "fade_in": 0.6, "fade_out": 0.5
+  },
+  {
+    "id": "sp_adapter",
+    "duration": 9.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "modern factory machine and HVAC equipment with a digital interface panel, dark industrial setting, cyan blue accent light, photorealistic, cinematic",
+      "style": "cinematic", "cache_key": "sp_adapter_bg",
+      "motion": "dolly", "amplitude": 0.035
+    },
+    "graphics": [
+      {"type": "node", "at": [0.18, 0.5], "r": 0.06, "label": "設備機器", "appear": [0.2, 0.9]},
+      {"type": "node", "at": [0.82, 0.5], "shape": "box", "w": 0.2, "h": 0.16, "label": "背骨", "color": [0, 200, 255], "appear": [0.2, 0.9]},
+      {"type": "link", "from": [0.25, 0.5], "to": [0.70, 0.5], "draw": [0.9, 2.2], "flow": true, "arrow": true, "color": [255, 200, 90], "label": "アダプタ"}
+    ],
+    "text": {"content": "アダプタが、橋をかける", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.5, "grain": 0.03,
+    "fade_in": 0.6, "fade_out": 0.5
+  },
+  {
+    "id": "sp_api",
+    "duration": 9.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "factory equipment emitting glowing blue cyan data streams flowing into the air, dark industrial setting, holographic light particles over machinery, photorealistic, cinematic",
+      "style": "cinematic", "cache_key": "sp_api_bg",
+      "motion": "zoom_in", "amplitude": 0.03
+    },
+    "graphics": [
+      {"type": "node", "at": [0.82, 0.5], "shape": "box", "w": 0.2, "h": 0.16, "label": "背骨", "appear": [0.2, 0.8]},
+      {"type": "node", "at": [0.16, 0.28], "r": 0.045, "label": "空調", "appear": [0.3, 1.0]},
+      {"type": "node", "at": [0.16, 0.5], "r": 0.045, "label": "給排水", "appear": [0.5, 1.2]},
+      {"type": "node", "at": [0.16, 0.72], "r": 0.045, "label": "機械", "appear": [0.7, 1.4]},
+      {"type": "link", "from": [0.22, 0.30], "to": [0.71, 0.46], "draw": [1.0, 2.2], "flow": true},
+      {"type": "link", "from": [0.22, 0.5], "to": [0.71, 0.5], "draw": [1.3, 2.5], "flow": true},
+      {"type": "link", "from": [0.22, 0.70], "to": [0.71, 0.54], "draw": [1.6, 2.8], "flow": true}
+    ],
+    "text": {"content": "APIで、現場がデータになる", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.5, "grain": 0.03,
+    "fade_in": 0.6, "fade_out": 0.5
+  },
+  {
+    "id": "sp_spine_hero",
+    "duration": 11.0,
+    "background": {"type": "manim", "scene": "AdapterSpine"},
+    "text": {"content": "背骨は不変、入出力は自在", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.35, "grain": 0.025,
+    "fade_in": 0.8, "fade_out": 0.8
+  },
+  {
+    "id": "sp_control",
+    "duration": 9.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "industrial actuators and HVAC valves with glowing control interface holograms over the machinery, automated factory responding to commands, dark setting cyan light, photorealistic, cinematic",
+      "style": "cinematic", "cache_key": "sp_control_bg",
+      "motion": "dolly", "amplitude": 0.035
+    },
+    "graphics": [
+      {"type": "node", "at": [0.28, 0.5], "shape": "box", "w": 0.2, "h": 0.16, "label": "背骨（制御）", "appear": [0.2, 0.9]},
+      {"type": "node", "at": [0.74, 0.5], "r": 0.06, "label": "設備", "appear": [0.2, 0.9]},
+      {"type": "link", "from": [0.38, 0.42], "to": [0.67, 0.42], "draw": [0.9, 1.8], "flow": true, "arrow": true, "label": "指令"},
+      {"type": "link", "from": [0.67, 0.58], "to": [0.38, 0.58], "draw": [1.9, 2.8], "flow": true, "arrow": true, "color": [120, 230, 160], "label": "フィードバック"}
+    ],
+    "text": {"content": "設備が、プログラムで動く", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.5, "grain": 0.03,
+    "fade_in": 0.6, "fade_out": 0.5
+  },
+  {
+    "id": "sp_scale",
+    "duration": 9.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "aerial night view of many factories and facilities, digital grid overlay, glowing network lines connecting buildings across an industrial city, photorealistic, cinematic, blue cyan glow",
+      "style": "epic_landscape", "cache_key": "sp_scale_bg",
+      "motion": "zoom_in", "amplitude": 0.03
+    },
+    "graphics": [
+      {"type": "node", "at": [0.30, 0.40], "r": 0.035, "label": "現場A", "appear": [0.3, 1.0]},
+      {"type": "node", "at": [0.62, 0.32], "r": 0.035, "label": "現場B", "appear": [0.6, 1.3]},
+      {"type": "node", "at": [0.72, 0.62], "r": 0.035, "label": "現場C", "appear": [0.9, 1.6]},
+      {"type": "node", "at": [0.40, 0.66], "r": 0.035, "label": "現場D", "appear": [1.2, 1.9]},
+      {"type": "link", "from": [0.30, 0.40], "to": [0.62, 0.32], "draw": [1.3, 2.2], "flow": true},
+      {"type": "link", "from": [0.62, 0.32], "to": [0.72, 0.62], "draw": [1.6, 2.5], "flow": true},
+      {"type": "link", "from": [0.72, 0.62], "to": [0.40, 0.66], "draw": [1.9, 2.8], "flow": true},
+      {"type": "link", "from": [0.40, 0.66], "to": [0.30, 0.40], "draw": [2.2, 3.1], "flow": true}
+    ],
+    "text": {"content": "ひとつの現場から、業界へ", "style": "subtitle"},
+    "grade": "cold", "vignette": 0.5, "grain": 0.03,
+    "fade_in": 0.6, "fade_out": 0.6
+  },
+  {
+    "id": "sp_close",
+    "duration": 5.0,
+    "background": {"type": "gradient", "colors": ["#06121f", "#0d3450"]},
+    "text": {"content": "動くものを、お見せします", "style": "title"},
+    "grade": "cold", "vignette": 0.5, "grain": 0.03,
+    "fade_in": 0.8, "fade_out": 1.0
+  }
+]

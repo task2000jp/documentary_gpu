@@ -27,6 +27,11 @@ soundfile
 imageio
 imageio-ffmpeg
 
+# ── ベクター図解・ヒーロー図（線/ノード/データ流アニメ）──
+# A層 overlay_vector は Pillow のみで動く（追加依存なし）。
+# C層 Manim ヒーロー図を使う時だけ ↓（apt: libcairo2-dev libpango1.0-dev も必要）
+manim                       # background.type="manim" のヒーロー図カット用
+
 # ── 音楽：理論based劇伴（MP1-MP3）──
 music21                     # 作曲・MIDI生成
 pedalboard                  # ミックス（reverb/EQ/comp・Spotify製）

@@ -56,6 +56,34 @@
 }
 ```
 
+### manim — 図解アニメのヒーローカット（背骨/アダプタ/接続図）
+```jsonc
+{ "type": "manim", "scene": "AdapterSpine" }  // src/manim_scenes.py の Scene クラス名
+```
+Manim が自前で 1920x1080@24 の mp4 を生成 → 後段で grade/text を被せる。
+依存: `pip install manim` + apt `libcairo2-dev libpango1.0-dev`（manimカット使用時のみ）。
+
+## graphics — ベクター図解の重ね層（★線・図形をアニメ描画）
+
+`background` と独立。実写(FLUX)やグラデの上に、線/ノード/データ流を時間で動かす。
+座標・寸法は 0..1 正規化（x=幅, y=高, r=高さ基準, box w/h=幅/高基準）。追加依存なし。
+
+```jsonc
+"graphics": [
+  {"type": "node", "at": [0.18,0.5], "shape": "circle", "r": 0.06,
+   "label": "設備機器", "pulse": true, "appear": [0.2,0.9]},
+  {"type": "node", "at": [0.82,0.5], "shape": "box", "w": 0.2, "h": 0.16,
+   "label": "背骨", "color": [0,200,255]},
+  {"type": "link", "from": [0.25,0.5], "to": [0.70,0.5],
+   "draw": [0.9,2.2], "flow": true, "arrow": true,
+   "color": [255,200,90], "label": "アダプタ"},
+  {"type": "label", "at": [0.5,0.12], "text": "API", "size": 32}
+]
+```
+- `appear:[t0,t1]` フェードイン窓 / `draw:[t0,t1]` 線が0→1で伸びる窓
+- `flow:true` 線上を光点が流れる（=データ）/ `arrow:true` 矢頭（=制御の向き）/ `pulse:true` 脈動
+- z順: link(下) → node → label(上)。色は RGB 配列（省略時シアン）。
+
 ## text タイプ
 ```jsonc
 { "content": "一五一七年　宗教改革", "style": "title" }
