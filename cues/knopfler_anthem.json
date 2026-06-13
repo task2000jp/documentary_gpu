@@ -1,0 +1,25 @@
+{
+  "id": "knopfler_anthem",
+  "duration": 100.0,
+  "key": "A",
+  "mode": "mixolydian",
+  "tempo": 84,
+  "emotion": "scottish_heroic_anthem",
+  "style": "fingerstyle",
+  "instrumentation": ["electric_guitar_clean", "electric_guitar_clean", "strings", "bass_guitar"],
+  "dynamic_arc": "build",
+  "harmony": "I-VII-IV-I-vi-IV-VII-I",
+  "melody": [
+    { "motif": "knopfler_call",    "treatment": "full",       "intensity": 0.62, "breath": 2.5 },
+    { "motif": "knopfler_answer",  "treatment": "full",       "intensity": 0.72, "breath": 2.5 },
+    { "motif": "knopfler_call",    "treatment": "full",       "intensity": 0.70, "breath": 2.0 },
+    { "motif": "knopfler_answer",  "treatment": "full",       "intensity": 0.82, "breath": 3.0 },
+    { "motif": "knopfler_climax",  "treatment": "triumphant", "intensity": 1.0,  "breath": 3.0 },
+    { "motif": "knopfler_resolve", "treatment": "full",       "intensity": 0.55, "breath": 2.5 }
+  ],
+  "texture_layer": {
+    "prompt": "warm analog tape ambience, distant highland wind, soft reverberant air",
+    "gain": 0.12
+  },
+  "_note": "Mark Knopfler / Dire Straits 風アンセム（Local Hero / Brothers in Arms の気配）。原曲引用なしのオリジナル旋律。A mixolydian・指弾き・提示→応答→クライマックス(鳴かせる最高音)→家路の帰結。render style=fingerstyle（HPF→Comp→Chorus→0.28sディレイ→Reverb→Limiter）。"
+}

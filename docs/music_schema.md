@@ -18,12 +18,27 @@
   "instrumentation": ["strings", "organ", "low_brass"], // 先頭=主題, 中=パッド, 末=バス
   "dynamic_arc": "build",      // swell|build|sustain|decay
   "harmony": "i-VII-III-VII-i",// ローマ数字進行（任意・省略時は旋法デフォルト）
+  "melody": [                  // 任意・歌構造（楽節を順に展開）。省略時はmotifを2回提示
+    { "motif": "knopfler_call",   "treatment": "full", "intensity": 0.62, "breath": 2.5 },
+    { "motif": "knopfler_climax", "treatment": "triumphant", "intensity": 1.0, "octave": 0 }
+  ],
   "texture_layer": {           // AI質感（任意・Colab MP5）
     "prompt": "sacred reverberant choir pad, distant",
     "gain": 0.18               // 0..1 重ねる音量
   }
 }
 ```
+
+### melody（任意・歌構造）
+楽節(phrase)を配列で並べ、提示→応答→クライマックス→帰結のような**歌の構造**を組む。
+省略すると従来動作（`motif` を提示＋中盤で再提示）。各 phrase のキー:
+| キー | 意味 | 既定 |
+|---|---|---|
+| `motif` | ライトモチーフ名 | `victory` |
+| `treatment` | 変容（下表） | `full` |
+| `octave` | 主題のオクターブ移動（±整数） | `0` |
+| `intensity` | 音量0..1（明示しなければ後半ほど強くbuild） | 自動 |
+| `breath` | 直前の楽節との間（休符・四分音符数） | `2.0` |
 
 ## mode（旋法）
 | 値 | 感情 | 用途例 |
@@ -42,6 +57,8 @@
 | `bondage` | 恐れ・罪悪感の反復 |
 | `shalom` | 創造・祝福・平和 |
 | `question` | 問い・神秘 |
+| `highland` | スコットランド英雄譚（Knopfler風・ミクソリディアン） |
+| `knopfler_call` / `knopfler_answer` / `knopfler_climax` / `knopfler_resolve` | Dire Straits/Knopfler風アンセムの楽節（呼びかけ→応答→クライマックス→家路）。`melody`で連結して使う |
 
 ## motif_treatment（変容）
 | 値 | 効果 |

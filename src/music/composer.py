@@ -160,27 +160,53 @@ def compose_cue(cue: dict) -> stream.Score:
     mel = _part(GM.get(melodic, 48), f"melody:{melodic}")
     # ギター(fingerstyle)は1oct上、管弦は2oct上で歌わせる（楽器の音域に合わせる）
     mel_oct = 12 if style == "fingerstyle" else 24
-    realized = leitmotif.realize(
-        cue.get("motif", "victory"),
-        tonic_midi + mel_oct,
-        mode,
-        cue.get("motif_treatment", "full"),
-    )
-    # 冒頭に短い無音、その後 主題提示 → 中盤で再提示（理論的な再現）
-    mel.append(note.Rest(quarterLength=min(4.0, total_q * 0.1)))
     peak_vel = max(vels)
-    for reprise in (False, True):
-        if reprise:
-            gap = total_q * 0.4
-            mel.append(note.Rest(quarterLength=max(2.0, gap)))
-        for p, ql, vsc in realized:
-            if p is None:
-                mel.append(note.Rest(quarterLength=ql))
-                continue
-            n = note.Note(p, quarterLength=ql)
-            base = peak_vel if reprise else 0.7
-            n.volume.velocity = int(max(30, min(127, 127 * base * vsc)))
-            mel.append(n)
+    # 冒頭に短い無音（呼吸）
+    mel.append(note.Rest(quarterLength=min(4.0, total_q * 0.1)))
+
+    melody_spec = cue.get("melody")
+    if melody_spec:
+        # 楽節(phrase)を順に並べる歌構造（提示→応答→クライマックス→帰結）。
+        # 各 phrase: {motif, treatment?, octave?, intensity?, breath?}
+        # intensity 省略時は後半ほど強く（アンセムのbuild）。phrase間に "breath"(休符)。
+        for pi, ph in enumerate(melody_spec):
+            if pi > 0:
+                mel.append(note.Rest(quarterLength=float(ph.get("breath", 2.0))))
+            realized = leitmotif.realize(
+                ph.get("motif", "victory"),
+                tonic_midi + mel_oct + 12 * int(ph.get("octave", 0)),
+                mode,
+                ph.get("treatment", "full"),
+            )
+            frac = pi / max(1, len(melody_spec) - 1)
+            base = float(ph.get("intensity", 0.62 + 0.38 * frac))
+            for p, ql, vsc in realized:
+                if p is None:
+                    mel.append(note.Rest(quarterLength=ql))
+                    continue
+                n = note.Note(p, quarterLength=ql)
+                n.volume.velocity = int(max(30, min(127, 127 * base * vsc)))
+                mel.append(n)
+    else:
+        # 従来動作: 単一モチーフを提示→中盤で再提示（既存cueの互換）
+        realized = leitmotif.realize(
+            cue.get("motif", "victory"),
+            tonic_midi + mel_oct,
+            mode,
+            cue.get("motif_treatment", "full"),
+        )
+        for reprise in (False, True):
+            if reprise:
+                gap = total_q * 0.4
+                mel.append(note.Rest(quarterLength=max(2.0, gap)))
+            for p, ql, vsc in realized:
+                if p is None:
+                    mel.append(note.Rest(quarterLength=ql))
+                    continue
+                n = note.Note(p, quarterLength=ql)
+                base = peak_vel if reprise else 0.7
+                n.volume.velocity = int(max(30, min(127, 127 * base * vsc)))
+                mel.append(n)
 
     score.insert(0, mel)
     score.insert(0, pad)
