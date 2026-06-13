@@ -4,6 +4,7 @@ pipeline.py — documentary_gpu パイプライン管理 CLI
   python scripts/pipeline.py status
   python scripts/pipeline.py render <章名>      # scenes/<章名>.json を描画
   python scripts/pipeline.py render-scene <json> <id>  # 単一シーン試写
+  python scripts/pipeline.py music <cue>        # cue(JSON)→MIDI→WAV を1コマンドで（claw-daw方式）
   python scripts/pipeline.py doctor             # 環境チェック（GPU/モデル/ffmpeg）
 """
 import argparse
@@ -61,6 +62,57 @@ def cmd_render_scene(args):
     print(f"[render-scene] {args.id} 試写")
     path = renderer.render_scene(scene, out_dir)
     print(f"完了: {path}")
+
+
+def cmd_music(args):
+    """cue(JSON) → MIDI → WAV を1コマンドで（claw-daw方式の "render project.json"）。
+
+    MIDI作曲は純Python(music21)で常にローカル完結。
+    WAV化(FluidSynth+ミックス+ -16 LUFS)は fluidsynth がある環境だけ続行し、
+    無ければ MIDI を残して Colab(colab_music.ipynb) への引き渡しを案内する。
+    """
+    import shutil
+    import subprocess
+    from music import composer
+
+    # cue 解決: パス指定 or cues/<名>.json
+    cue_path = Path(args.cue)
+    if not cue_path.exists():
+        cand = BASE / "cues" / f"{args.cue}.json"
+        if cand.exists():
+            cue_path = cand
+        else:
+            print(f"エラー: cue が見つかりません: {args.cue}（cues/{args.cue}.json も無し）")
+            return
+    cue = json.loads(cue_path.read_text())
+    cid = cue.get("id", cue_path.stem)
+    style = args.style or cue.get("style", "orchestral")
+
+    music_dir = BASE / "build" / "music"
+    music_dir.mkdir(parents=True, exist_ok=True)
+    midi = str(music_dir / f"{cid}.mid")
+    wav = args.out or str(music_dir / f"{cid}.wav")
+
+    # ① 作曲（理論based・ローカル）
+    print(f"[music] {cid}: {cue.get('key','C')} {cue.get('mode','ionian')} "
+          f"{cue.get('tempo',72)}BPM / 主題={cue.get('motif','victory')} "
+          f"({cue.get('motif_treatment','full')}) / style={style}")
+    composer.write_midi(cue, midi)
+    print(f"  ① 作曲完了 → {midi}")
+
+    # ② WAV化（FluidSynth がある環境＝Colab等のみ）
+    if not shutil.which("fluidsynth"):
+        print("  ⚪ fluidsynth 未導入（ローカル設計環境）→ MIDIまでで停止")
+        print("     WAV化は Colab で: scripts/colab_music.ipynb（ランタイム→すべて実行）")
+        print(f"     または fluidsynth のある環境で:"
+              f" python scripts/render_music.py {midi} --out {wav} --style {style}")
+        return
+    cmd = [sys.executable, str(BASE / "scripts" / "render_music.py"),
+           midi, "--out", wav, "--style", style]
+    if args.soundfont:
+        cmd += ["--soundfont", args.soundfont]
+    subprocess.run(cmd, check=True)
+    print(f"\n[music] 劇伴完成: {wav}")
 
 
 def cmd_doctor(args):
@@ -128,6 +180,13 @@ def main():
     pr = sub.add_parser("render"); pr.add_argument("chapter")
     rs = sub.add_parser("render-scene")
     rs.add_argument("json"); rs.add_argument("id")
+    mu = sub.add_parser("music", help="cue(JSON)→MIDI→WAV を1コマンドで")
+    mu.add_argument("cue", help="cues/<名>.json か JSONパス")
+    mu.add_argument("--out", default=None, help="出力WAV（省略時 build/music/<id>.wav）")
+    mu.add_argument("--style", default=None,
+                    choices=["orchestral", "fingerstyle"],
+                    help="ミックス（省略時はcueのstyle、無ければorchestral）")
+    mu.add_argument("--soundfont", default=None, help="SoundFont(.sf2)パス")
     up = sub.add_parser("upload", help="YouTube にアップロード")
     up.add_argument("chapter", nargs="?", help="章名（build/chapters/<章>.mp4）")
     up.add_argument("--video",    default=None, help="動画ファイルを直接指定")
@@ -136,8 +195,8 @@ def main():
 
     args = p.parse_args()
     {"status": cmd_status, "render": cmd_render,
-     "render-scene": cmd_render_scene, "doctor": cmd_doctor,
-     "upload": cmd_upload}.get(
+     "render-scene": cmd_render_scene, "music": cmd_music,
+     "doctor": cmd_doctor, "upload": cmd_upload}.get(
         args.command, lambda a: p.print_help())(args)
 
 

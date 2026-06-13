@@ -121,6 +121,19 @@
 「ステム分離→ミックス→マスタリング」は実際のレコーディング工程の再現。
 "適当な一発生成"ではなく、各楽器を設計し空間に配置する。
 
+### 実行（CLI・claw-daw方式の "render project.json"）
+cue(JSON)→MIDI→WAV を**1コマンド**で。GUIは介さず、AIが書き換えるのはcue(JSON)だけ。
+```bash
+# cues/<名>.json を渡すだけ（styleはcueの "style" から自動判定）
+python scripts/pipeline.py music proto_knopfler      # Knopfler風(fingerstyle)
+python scripts/pipeline.py music ch6                  # 管弦の勝利主題(orchestral)
+# style上書き / 出力先指定:
+python scripts/pipeline.py music ch6 --style orchestral --out build/music/ch6.wav
+```
+- **ローカル**(fluidsynth無し): ①MIDI作曲まで完結 → WAV化はColabへ案内。
+- **Colab**(`colab_music.ipynb`): ①〜④を通しでWAVまで。music21/FluidSynth/pedalboard/pyloudnorm。
+- 旧2スクリプト（`compose_music.py` / `render_music.py`）は内部で呼ばれる下位コマンドとして存続。
+
 ---
 
 ## 5. ミッション整合・美学
