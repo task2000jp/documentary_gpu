@@ -2,6 +2,7 @@
 pipeline.py — documentary_gpu パイプライン管理 CLI
 
   python scripts/pipeline.py status
+  python scripts/pipeline.py scenario <章名>    # scenarios/<章>.json → scenes/<章>.json（絵コンテ生成）
   python scripts/pipeline.py render <章名>      # scenes/<章名>.json を描画
   python scripts/pipeline.py render-scene <json> <id>  # 単一シーン試写
   python scripts/pipeline.py music <cue>        # cue(JSON)→MIDI→WAV を1コマンドで（claw-daw方式）
@@ -19,7 +20,16 @@ sys.path.insert(0, str(BASE / "src"))
 def cmd_status(args):
     scenes_dir = BASE / "scenes"
     chap_dir = BASE / "build" / "chapters"
+    scenario_dir = BASE / "scenarios"
     print("=== Documentary GPU 制作状況 ===\n")
+    scns = sorted(scenario_dir.glob("*.json")) if scenario_dir.exists() else []
+    if scns:
+        print("【シナリオ】scenarios/ → pipeline.py scenario <名>")
+        for s in scns:
+            compiled = (scenes_dir / f"{json.loads(s.read_text()).get('chapter', s.stem)}.json").exists()
+            print(f"  {'🟢' if compiled else '⚪'} {s.stem:<14}{'（絵コンテ生成済）' if compiled else '（未コンパイル）'}")
+        print()
+    print("【絵コンテ/描画】scenes/ → pipeline.py render <名>")
     jsons = sorted(scenes_dir.glob("*.json")) if scenes_dir.exists() else []
     if not jsons:
         print("  scenes/*.json がまだありません。")
@@ -34,6 +44,26 @@ def cmd_status(args):
         else:
             n = len(json.loads(j.read_text()))
             print(f"  ❌ {name:<12} 未レンダリング（{n}シーン定義済み）")
+
+
+def cmd_scenario(args):
+    """シナリオ(scenarios/<章>.json) → 絵コンテ(scenes/<章>.json)。
+    --render を付けると続けて描画（torch必須＝Colab）。"""
+    import build_scenario
+    try:
+        out_path, scenes = build_scenario.build(args.scenario, args.out)
+    except (FileNotFoundError, ValueError) as e:
+        print(f"エラー: {e}")
+        return
+    if args.render:
+        import renderer
+        chapter = json.loads(Path(out_path).read_text())
+        out_dir = BASE / "build" / "chapters"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        scenario = build_scenario.load_scenario(args.scenario)
+        out = str(out_dir / f"{scenario['chapter']}.mp4")
+        print(f"\n[render] {len(chapter)}シーン → {out}\n")
+        renderer.render_chapter(chapter, out)
 
 
 def cmd_render(args):
@@ -177,6 +207,10 @@ def main():
     sub = p.add_subparsers(dest="command")
     sub.add_parser("status")
     sub.add_parser("doctor")
+    sc = sub.add_parser("scenario", help="シナリオ→絵コンテ(scenes JSON)生成")
+    sc.add_argument("scenario", help="scenarios/<名>.json か JSONパス")
+    sc.add_argument("--out", default=None, help="出力 scenes JSON")
+    sc.add_argument("--render", action="store_true", help="生成後そのまま描画（要torch=Colab）")
     pr = sub.add_parser("render"); pr.add_argument("chapter")
     rs = sub.add_parser("render-scene")
     rs.add_argument("json"); rs.add_argument("id")
@@ -194,7 +228,7 @@ def main():
     up.add_argument("--schedule", default=None, help="予約投稿日時 ISO8601")
 
     args = p.parse_args()
-    {"status": cmd_status, "render": cmd_render,
+    {"status": cmd_status, "scenario": cmd_scenario, "render": cmd_render,
      "render-scene": cmd_render_scene, "music": cmd_music,
      "doctor": cmd_doctor, "upload": cmd_upload}.get(
         args.command, lambda a: p.print_help())(args)

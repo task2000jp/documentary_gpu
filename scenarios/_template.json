@@ -1,0 +1,63 @@
+{
+  "chapter": "_template",
+  "_note": "シナリオ機構のテンプレ兼デモ。中身は差し替え前提のプレースホルダ。全beat種別を網羅。",
+  "defaults": { "grade": "warm", "style": "cinematic", "voice_wps": 7.0 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "tmpl_title",
+      "kind": "title",
+      "text": "第○章　タイトル",
+      "colors": ["#0a0a12", "#15152e"],
+      "duration": 4.0
+    },
+    {
+      "id": "tmpl_scene1",
+      "kind": "prompt",
+      "prompt": "wide cinematic establishing shot, placeholder scene, dramatic light",
+      "style": "cinematic",
+      "motion": "pan_lr",
+      "grade": "cold",
+      "text": "ここに字幕（プレースホルダ）",
+      "narration": "ここにナレーション原稿を入れる。文字数から尺が自動で決まる。声が未構築でも描画は止まらない。"
+    },
+    {
+      "id": "tmpl_image",
+      "kind": "image",
+      "image": "placeholder.jpg",
+      "motion": "orbit",
+      "text": "既存画像を立体的に動かす例",
+      "duration": 6.0
+    },
+    {
+      "id": "tmpl_diagram",
+      "kind": "prompt",
+      "prompt": "abstract dark background for diagram overlay",
+      "style": "cinematic",
+      "motion": "still",
+      "text": "図解の重ね層（線・ノード）の例",
+      "duration": 8.0,
+      "graphics": [
+        { "type": "node", "at": [0.22, 0.5], "shape": "circle", "r": 0.06, "label": "A", "appear": [0.3, 1.0] },
+        { "type": "node", "at": [0.78, 0.5], "shape": "box", "w": 0.2, "h": 0.16, "label": "B", "appear": [0.8, 1.5] },
+        { "type": "link", "from": [0.28, 0.5], "to": [0.68, 0.5], "draw": [1.6, 2.6], "flow": true },
+        { "type": "label", "at": [0.5, 0.14], "text": "接続", "size": 32 }
+      ]
+    },
+    {
+      "id": "tmpl_hero",
+      "kind": "manim",
+      "scene": "AdapterSpine",
+      "duration": 10.0,
+      "text": "ヒーロー図（Manim）の例",
+      "fallback": { "colors": ["#06121f", "#0d3450"] }
+    },
+    {
+      "id": "tmpl_close",
+      "kind": "gradient",
+      "text": "結び（プレースホルダ）",
+      "colors": ["#15152e", "#0a0a12"],
+      "duration": 5.0
+    }
+  ]
+}

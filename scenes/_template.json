@@ -1,0 +1,189 @@
+[
+  {
+    "id": "tmpl_title",
+    "duration": 4.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#0a0a12",
+        "#15152e"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "第○章　タイトル",
+      "style": "title"
+    }
+  },
+  {
+    "id": "tmpl_scene1",
+    "duration": 7.4,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "wide cinematic establishing shot, placeholder scene, dramatic light",
+      "style": "cinematic",
+      "cache_key": "tmpl_scene1",
+      "motion": "pan_lr",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "ここに字幕（プレースホルダ）",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/tmpl_scene1.wav"
+  },
+  {
+    "id": "tmpl_image",
+    "duration": 6.0,
+    "background": {
+      "type": "image",
+      "path": "assets/images/placeholder.jpg",
+      "motion": "orbit",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "既存画像を立体的に動かす例",
+      "style": "subtitle"
+    }
+  },
+  {
+    "id": "tmpl_diagram",
+    "duration": 8.0,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "abstract dark background for diagram overlay",
+      "style": "cinematic",
+      "cache_key": "tmpl_diagram",
+      "motion": "still",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "図解の重ね層（線・ノード）の例",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.22,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.06,
+        "label": "A",
+        "appear": [
+          0.3,
+          1.0
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.78,
+          0.5
+        ],
+        "shape": "box",
+        "w": 0.2,
+        "h": 0.16,
+        "label": "B",
+        "appear": [
+          0.8,
+          1.5
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.28,
+          0.5
+        ],
+        "to": [
+          0.68,
+          0.5
+        ],
+        "draw": [
+          1.6,
+          2.6
+        ],
+        "flow": true
+      },
+      {
+        "type": "label",
+        "at": [
+          0.5,
+          0.14
+        ],
+        "text": "接続",
+        "size": 32
+      }
+    ]
+  },
+  {
+    "id": "tmpl_hero",
+    "duration": 10.0,
+    "background": {
+      "type": "manim",
+      "scene": "AdapterSpine",
+      "fallback": {
+        "colors": [
+          "#06121f",
+          "#0d3450"
+        ]
+      }
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "ヒーロー図（Manim）の例",
+      "style": "subtitle"
+    }
+  },
+  {
+    "id": "tmpl_close",
+    "duration": 5.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#15152e",
+        "#0a0a12"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "結び（プレースホルダ）",
+      "style": "title"
+    }
+  }
+]
