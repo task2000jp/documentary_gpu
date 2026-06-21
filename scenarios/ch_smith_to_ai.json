@@ -1,0 +1,87 @@
+{
+  "chapter": "ch_smith_to_ai",
+  "_note": "承認済み昇格ドラフト3本(gap_016 アダム・スミス / gap_028 シリコンバレー / gap_017 ディープラーニング)を、論旨鎖『改革→市場→産業→AI』の1章に統合。背骨(ペイロード)論で締める。",
+  "defaults": { "grade": "warm", "style": "cinematic", "voice_wps": 7.0 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "smith_title",
+      "kind": "title",
+      "text": "見えざる手と、変わらない背骨",
+      "text_style": "title",
+      "colors": ["#0a0a12", "#1c1430"],
+      "duration": 5.0
+    },
+    {
+      "id": "smith_glasgow",
+      "kind": "prompt",
+      "prompt": "18th century Glasgow study, Adam Smith the moral philosopher at a candlelit desk piled with books and ledgers, dramatic chiaroscuro, oil painting",
+      "style": "historical_oil",
+      "motion": "dolly",
+      "grade": "sepia",
+      "text": "一七七六年　スコットランド",
+      "narration": "一七七六年、スコットランド。道徳哲学者アダム・スミスは『国富論』を著した。人が自らの利益を追えば、見えざる手が社会全体を富ませる。その洞察は、宗教改革が育てた勤勉と信頼の倫理という土壌の上に芽吹いた。ただし富は目的ではない。それは外の豊かさという、ひとつの次元にすぎない。"
+    },
+    {
+      "id": "industry_bridge",
+      "kind": "prompt",
+      "prompt": "industrial revolution, steam engine pistons and iron foundry glowing with molten light, smoke and sparks, cinematic",
+      "style": "cinematic",
+      "motion": "pan_lr",
+      "grade": "warm",
+      "text": "倫理は、機械を動かす力になった",
+      "narration": "その倫理は、やがて蒸気と鉄を動かす力になった。市場と勤勉が結びつき、産業革命がスコットランドの地から世界へ広がっていく。"
+    },
+    {
+      "id": "silicon_valley",
+      "kind": "prompt",
+      "prompt": "Silicon Valley aerial at golden hour, glass technology campuses and freeways, vast and gleaming, cinematic",
+      "style": "cinematic",
+      "motion": "zoom_in",
+      "grade": "cold",
+      "text": "二百年後、太平洋の岸辺で",
+      "narration": "二百年後、その市場原理は太平洋の岸辺で爆発する。シリコンバレー。イノベーションと投資が連鎖し、人の脳が新しさと挑戦に惹かれる性質が、桁外れの繁栄を生んだ。だが同じ仕組みは格差をも広げる。繁栄の影を見ないなら、それはもはや福音ではない。"
+    },
+    {
+      "id": "deep_learning",
+      "kind": "prompt",
+      "prompt": "abstract neural network, layered glowing nodes connected by flowing light, deep blue and cyan, dark background, cinematic",
+      "style": "cinematic",
+      "motion": "still",
+      "grade": "cold",
+      "text": "知性が、機械に宿りはじめた",
+      "narration": "そして今、知性そのものが機械に宿りはじめた。ディープラーニングは人間の脳の階層構造を模し、認知を増強する。福音が解き放った探究心は、ついに思考を設計する段階に達した。問いは残る。この力は人を神へ近づけるのか、それとも新たな依存を生むのか。",
+      "graphics": [
+        { "type": "node", "at": [0.2, 0.32], "shape": "circle", "r": 0.035, "appear": [0.4, 1.2] },
+        { "type": "node", "at": [0.2, 0.5], "shape": "circle", "r": 0.035, "appear": [0.6, 1.4] },
+        { "type": "node", "at": [0.2, 0.68], "shape": "circle", "r": 0.035, "appear": [0.8, 1.6] },
+        { "type": "node", "at": [0.5, 0.4], "shape": "circle", "r": 0.04, "appear": [1.4, 2.2] },
+        { "type": "node", "at": [0.5, 0.6], "shape": "circle", "r": 0.04, "appear": [1.6, 2.4] },
+        { "type": "node", "at": [0.8, 0.5], "shape": "circle", "r": 0.05, "label": "知性", "appear": [2.4, 3.2] },
+        { "type": "link", "from": [0.2, 0.32], "to": [0.5, 0.4], "draw": [1.8, 2.6], "flow": true },
+        { "type": "link", "from": [0.2, 0.5], "to": [0.5, 0.4], "draw": [1.9, 2.7], "flow": true },
+        { "type": "link", "from": [0.2, 0.68], "to": [0.5, 0.6], "draw": [2.0, 2.8], "flow": true },
+        { "type": "link", "from": [0.5, 0.4], "to": [0.8, 0.5], "draw": [2.8, 3.6], "flow": true, "arrow": true },
+        { "type": "link", "from": [0.5, 0.6], "to": [0.8, 0.5], "draw": [2.9, 3.7], "flow": true, "arrow": true }
+      ]
+    },
+    {
+      "id": "spine_hero",
+      "kind": "manim",
+      "scene": "AdapterSpine",
+      "duration": 14.0,
+      "grade": "warm",
+      "text": "インフラは変わる。ペイロードは、変わらない",
+      "narration": "改革から市場へ、産業から人工知能へ。インフラは姿を変え続ける。だが、その上を運ばれる荷、ペイロードは変わらない。金の価値を宇宙の物理が保証するように、この物語の背骨を保証するのは、人間の約束ではない。勝利の福音、それ自体である。",
+      "fallback": { "colors": ["#06121f", "#0d3450"] }
+    },
+    {
+      "id": "smith_close",
+      "kind": "gradient",
+      "text": "勝利の福音",
+      "text_style": "title",
+      "colors": ["#1c1430", "#0a0a12"],
+      "duration": 5.0
+    }
+  ]
+}

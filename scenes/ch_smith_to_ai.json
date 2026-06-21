@@ -1,0 +1,324 @@
+[
+  {
+    "id": "smith_title",
+    "duration": 5.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#0a0a12",
+        "#1c1430"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "見えざる手と、変わらない背骨",
+      "style": "title"
+    }
+  },
+  {
+    "id": "smith_glasgow",
+    "duration": 20.2,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "18th century Glasgow study, Adam Smith the moral philosopher at a candlelit desk piled with books and ledgers, dramatic chiaroscuro, oil painting",
+      "style": "historical_oil",
+      "cache_key": "smith_glasgow",
+      "motion": "dolly",
+      "amplitude": 0.04
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "一七七六年　スコットランド",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/smith_glasgow.wav"
+  },
+  {
+    "id": "industry_bridge",
+    "duration": 9.4,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "industrial revolution, steam engine pistons and iron foundry glowing with molten light, smoke and sparks, cinematic",
+      "style": "cinematic",
+      "cache_key": "industry_bridge",
+      "motion": "pan_lr",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "倫理は、機械を動かす力になった",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/industry_bridge.wav"
+  },
+  {
+    "id": "silicon_valley",
+    "duration": 17.5,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "Silicon Valley aerial at golden hour, glass technology campuses and freeways, vast and gleaming, cinematic",
+      "style": "cinematic",
+      "cache_key": "silicon_valley",
+      "motion": "zoom_in",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "二百年後、太平洋の岸辺で",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/silicon_valley.wav"
+  },
+  {
+    "id": "deep_learning",
+    "duration": 17.8,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "abstract neural network, layered glowing nodes connected by flowing light, deep blue and cyan, dark background, cinematic",
+      "style": "cinematic",
+      "cache_key": "deep_learning",
+      "motion": "still",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "知性が、機械に宿りはじめた",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.2,
+          0.32
+        ],
+        "shape": "circle",
+        "r": 0.035,
+        "appear": [
+          0.4,
+          1.2
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.2,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.035,
+        "appear": [
+          0.6,
+          1.4
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.2,
+          0.68
+        ],
+        "shape": "circle",
+        "r": 0.035,
+        "appear": [
+          0.8,
+          1.6
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.5,
+          0.4
+        ],
+        "shape": "circle",
+        "r": 0.04,
+        "appear": [
+          1.4,
+          2.2
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.5,
+          0.6
+        ],
+        "shape": "circle",
+        "r": 0.04,
+        "appear": [
+          1.6,
+          2.4
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.8,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.05,
+        "label": "知性",
+        "appear": [
+          2.4,
+          3.2
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.2,
+          0.32
+        ],
+        "to": [
+          0.5,
+          0.4
+        ],
+        "draw": [
+          1.8,
+          2.6
+        ],
+        "flow": true
+      },
+      {
+        "type": "link",
+        "from": [
+          0.2,
+          0.5
+        ],
+        "to": [
+          0.5,
+          0.4
+        ],
+        "draw": [
+          1.9,
+          2.7
+        ],
+        "flow": true
+      },
+      {
+        "type": "link",
+        "from": [
+          0.2,
+          0.68
+        ],
+        "to": [
+          0.5,
+          0.6
+        ],
+        "draw": [
+          2.0,
+          2.8
+        ],
+        "flow": true
+      },
+      {
+        "type": "link",
+        "from": [
+          0.5,
+          0.4
+        ],
+        "to": [
+          0.8,
+          0.5
+        ],
+        "draw": [
+          2.8,
+          3.6
+        ],
+        "flow": true,
+        "arrow": true
+      },
+      {
+        "type": "link",
+        "from": [
+          0.5,
+          0.6
+        ],
+        "to": [
+          0.8,
+          0.5
+        ],
+        "draw": [
+          2.9,
+          3.7
+        ],
+        "flow": true,
+        "arrow": true
+      }
+    ],
+    "audio": "build/audio/deep_learning.wav"
+  },
+  {
+    "id": "spine_hero",
+    "duration": 14.0,
+    "background": {
+      "type": "manim",
+      "scene": "AdapterSpine",
+      "fallback": {
+        "colors": [
+          "#06121f",
+          "#0d3450"
+        ]
+      }
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "インフラは変わる。ペイロードは、変わらない",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/spine_hero.wav"
+  },
+  {
+    "id": "smith_close",
+    "duration": 5.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#1c1430",
+        "#0a0a12"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "勝利の福音",
+      "style": "title"
+    }
+  }
+]
