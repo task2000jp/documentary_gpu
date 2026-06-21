@@ -3,6 +3,7 @@ image_gen.py — 背景静止画の生成
 FLUX.1 schnell（NF4量子化、T4で~7GB）を第一候補、SDXL をフォールバック。
 cache_key で再生成をスキップ（冪等）。
 """
+import os
 import torch
 from pathlib import Path
 from PIL import Image
@@ -78,6 +79,12 @@ def _load_sdxl():
 def _ensure_pipe():
     global _pipe, _backend
     if _pipe is not None:
+        return
+    # IMAGE_BACKEND=sdxl で FLUX を試さず直行（無料Colabは34GB FLUXロードでOOM死しがち）。
+    backend = os.environ.get("IMAGE_BACKEND", "auto").lower()
+    if backend == "sdxl":
+        print("  [image_gen] IMAGE_BACKEND=sdxl → SDXL直行（FLUXスキップ）")
+        _pipe, _backend = _load_sdxl(), "sdxl"
         return
     try:
         print("  [image_gen] FLUX.1 schnell をロード中...")
