@@ -1,0 +1,197 @@
+[
+  {
+    "id": "t8_title",
+    "duration": 5.5,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#0c0606",
+        "#241010"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "鎧を脱げる強さ\n── 8のための原福音",
+      "style": "title"
+    }
+  },
+  {
+    "id": "t8_armor",
+    "duration": 11.5,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "a powerful armored figure with raised fists standing guard before a dark fortress wall, intense, heavy shadow, cinematic",
+      "style": "cinematic",
+      "cache_key": "t8_armor",
+      "motion": "dolly",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "舐められたくない。弱みは見せない。",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/t8_armor.wav"
+  },
+  {
+    "id": "t8_root",
+    "duration": 14.7,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "a child watching an ambivalent caregiver, warmth and threat in the same room, emotional chiaroscuro, oil painting",
+      "style": "historical_oil",
+      "cache_key": "t8_root",
+      "motion": "zoom_in",
+      "amplitude": 0.04
+    },
+    "grade": "sepia",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "ルーツ ── 愛と裏切りを、同じ手に見た",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/t8_root.wav"
+  },
+  {
+    "id": "t8_godimage",
+    "duration": 13.7,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "a distant towering ruler figure on a throne seen from below, cold and unreadable, a lone person refusing to kneel, dramatic, cinematic",
+      "style": "cinematic",
+      "cache_key": "t8_godimage",
+      "motion": "orbit",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "その配線は、神さえ敵に見せる",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.3,
+          0.6
+        ],
+        "shape": "circle",
+        "r": 0.05,
+        "label": "私",
+        "appear": [
+          0.4,
+          1.2
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.72,
+          0.35
+        ],
+        "shape": "box",
+        "w": 0.2,
+        "h": 0.16,
+        "label": "上位者",
+        "color": [
+          120,
+          130,
+          150
+        ],
+        "appear": [
+          1.0,
+          1.8
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.35,
+          0.58
+        ],
+        "to": [
+          0.64,
+          0.4
+        ],
+        "draw": [
+          1.8,
+          2.8
+        ],
+        "arrow": true,
+        "color": [
+          200,
+          80,
+          80
+        ],
+        "label": "警戒・防衛"
+      }
+    ],
+    "audio": "build/audio/t8_godimage.wav"
+  },
+  {
+    "id": "t8_gospel",
+    "duration": 14.0,
+    "background": {
+      "type": "manim",
+      "scene": "AdapterSpine",
+      "fallback": {
+        "colors": [
+          "#1f0c0c",
+          "#3a1414"
+        ]
+      }
+    },
+    "grade": "warm",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "戦いは、もう終わっている",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/t8_gospel.wav"
+  },
+  {
+    "id": "t8_close",
+    "duration": 6.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#241010",
+        "#0c0606"
+      ]
+    },
+    "grade": "warm",
+    "vignette": 0.5,
+    "grain": 0.04,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "もう、独りで戦わなくていい",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/t8_close.wav"
+  }
+]

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "ts_title",
+    "duration": 6.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#0a0a12",
+        "#1c1430"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "同じ福音、二つのスケール\n── 心の配線と、文明の配線",
+      "style": "title"
+    }
+  },
+  {
+    "id": "ts_micro",
+    "duration": 16.4,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "intimate portrait of a person exhaling in relief as dark wiring around them dissolves into warm light, close and personal, cinematic",
+      "style": "cinematic",
+      "cache_key": "ts_micro",
+      "motion": "dolly",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "ミクロ ── 解放された心は、外へ手を伸ばす",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/ts_micro.wav"
+  },
+  {
+    "id": "ts_hinge",
+    "duration": 12.9,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "a single glowing thread rising from one human heart and expanding outward into a vast network of light over a continent at night, micro to macro, cinematic",
+      "style": "cinematic",
+      "cache_key": "ts_hinge",
+      "motion": "zoom_in",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "蝶番 ── 恐れからの解放が、思考を変える",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.22,
+          0.55
+        ],
+        "shape": "circle",
+        "r": 0.05,
+        "label": "心",
+        "appear": [
+          0.5,
+          1.3
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.5,
+          0.4
+        ],
+        "shape": "circle",
+        "r": 0.045,
+        "label": "思考の転換",
+        "appear": [
+          1.6,
+          2.4
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.8,
+          0.5
+        ],
+        "shape": "box",
+        "w": 0.18,
+        "h": 0.16,
+        "label": "探究・科学",
+        "color": [
+          0,
+          200,
+          255
+        ],
+        "appear": [
+          2.8,
+          3.6
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.27,
+          0.55
+        ],
+        "to": [
+          0.46,
+          0.42
+        ],
+        "draw": [
+          1.2,
+          2.0
+        ],
+        "flow": true,
+        "arrow": true
+      },
+      {
+        "type": "link",
+        "from": [
+          0.54,
+          0.4
+        ],
+        "to": [
+          0.71,
+          0.5
+        ],
+        "draw": [
+          2.4,
+          3.2
+        ],
+        "flow": true,
+        "arrow": true,
+        "color": [
+          255,
+          200,
+          90
+        ]
+      }
+    ],
+    "audio": "build/audio/ts_hinge.wav"
+  },
+  {
+    "id": "ts_macro",
+    "duration": 17.9,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "16th century Reformation transitioning into early scientific revolution, a scholar setting aside fear to measure the heavens with instruments, dawn light, oil painting",
+      "style": "historical_oil",
+      "cache_key": "ts_macro",
+      "motion": "pan_lr",
+      "amplitude": 0.04
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "マクロ ── 宗教改革は、社会規模の解放だった",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/ts_macro.wav"
+  },
+  {
+    "id": "ts_spine",
+    "duration": 13.0,
+    "background": {
+      "type": "manim",
+      "scene": "AdapterSpine",
+      "fallback": {
+        "colors": [
+          "#06121f",
+          "#0d3450"
+        ]
+      }
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "二つの配線を貫く、一本の背骨",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/ts_spine.wav"
+  },
+  {
+    "id": "ts_close",
+    "duration": 5.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#1c1430",
+        "#0a0a12"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "勝利の福音",
+      "style": "title"
+    }
+  }
+]

@@ -1,0 +1,191 @@
+[
+  {
+    "id": "cm_title",
+    "duration": 5.5,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#0a0a12",
+        "#1c1430"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "複製される魂\n── 産業革命が生んだ夢の機械",
+      "style": "title"
+    }
+  },
+  {
+    "id": "cm_precision",
+    "duration": 11.4,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "Victorian precision engineering workshop, finely machined brass gears lenses and lathes, industrial revolution craftsmanship, dramatic light, cinematic",
+      "style": "cinematic",
+      "cache_key": "cm_precision",
+      "motion": "orbit",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "鉄と蒸気は、精密機械を生んだ",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/cm_precision.wav"
+  },
+  {
+    "id": "cm_film",
+    "duration": 13.9,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "early 20th century cinema, film projector beam cutting through darkness, Hollywood sign on a golden hillside, crowds before a movie palace, cinematic",
+      "style": "cinematic",
+      "cache_key": "cm_film",
+      "motion": "pan_lr",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "光を複製する ── ハリウッド",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/cm_film.wav"
+  },
+  {
+    "id": "cm_rock",
+    "duration": 15.4,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "1960s recording studio, vinyl record spinning, a working-class British rock band performing under stage light, raw energy, cinematic",
+      "style": "cinematic",
+      "cache_key": "cm_rock",
+      "motion": "zoom_in",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "音を複製する ── ブリティッシュロック",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.18,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.05,
+        "label": "叫び",
+        "appear": [
+          0.4,
+          1.2
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.82,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.06,
+        "label": "世界",
+        "appear": [
+          2.2,
+          3.0
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.24,
+          0.5
+        ],
+        "to": [
+          0.74,
+          0.5
+        ],
+        "draw": [
+          1.2,
+          2.4
+        ],
+        "flow": true,
+        "arrow": true,
+        "color": [
+          255,
+          200,
+          90
+        ],
+        "label": "録音・電波"
+      }
+    ],
+    "audio": "build/audio/cm_rock.wav"
+  },
+  {
+    "id": "cm_spine",
+    "duration": 13.0,
+    "background": {
+      "type": "manim",
+      "scene": "AdapterSpine",
+      "fallback": {
+        "colors": [
+          "#06121f",
+          "#0d3450"
+        ]
+      }
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "器は中立。問題は、何を載せるか",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/cm_spine.wav"
+  },
+  {
+    "id": "cm_close",
+    "duration": 5.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#1c1430",
+        "#0a0a12"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "勝利の福音",
+      "style": "title"
+    }
+  }
+]

@@ -1,0 +1,78 @@
+{
+  "chapter": "ch_inner_engineering",
+  "_note": "Track A=個人心理ベース(INFJ/ISFJ・ミクロ)。original_gospel.md準拠。恐れの配線→愛のOS→十字架で配線を断つ。トーンは暗→温・親密。",
+  "defaults": { "grade": "cold", "style": "cinematic", "voice_wps": 7.0, "vignette": 0.45, "grain": 0.035 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "inner_title",
+      "kind": "title",
+      "text": "内面工学の改築\n── 恐れのループを断つ原福音",
+      "text_style": "title",
+      "colors": ["#08080f", "#161422"],
+      "duration": 5.5
+    },
+    {
+      "id": "inner_loop",
+      "kind": "prompt",
+      "prompt": "abstract tangled glowing wiring and knotted circuits in deep darkness, a faint human silhouette caught inside, cold blue, cinematic",
+      "style": "cinematic",
+      "motion": "dolly",
+      "grade": "cold",
+      "text": "なぜ、同じループに陥るのか",
+      "narration": "恋愛でいつも同じ別れ方をする。職場で人の目ばかり気にして疲れ果てる。私たちはなぜ、気づけば同じ不幸なループに戻ってしまうのか。それはあなたの性格のせいではない。心の配線が、バグを起こしているからだ。",
+      "graphics": [
+        { "type": "node", "at": [0.5, 0.5], "shape": "circle", "r": 0.05, "label": "私", "appear": [0.4, 1.2] },
+        { "type": "link", "from": [0.5, 0.5], "to": [0.22, 0.28], "draw": [1.0, 1.8] },
+        { "type": "link", "from": [0.5, 0.5], "to": [0.8, 0.3], "draw": [1.2, 2.0] },
+        { "type": "link", "from": [0.5, 0.5], "to": [0.28, 0.74], "draw": [1.4, 2.2] },
+        { "type": "link", "from": [0.5, 0.5], "to": [0.78, 0.72], "draw": [1.6, 2.4] }
+      ]
+    },
+    {
+      "id": "inner_fear",
+      "kind": "prompt",
+      "prompt": "walls and rigid borders forming around a glowing heart in darkness, constricting geometric barriers, cold tones, cinematic",
+      "style": "cinematic",
+      "motion": "zoom_in",
+      "grade": "cold",
+      "text": "恐れの正体 ── 罪悪感と、失う恐怖",
+      "narration": "私たちを縛る恐れの根源は二つ。過去への囚われ＝罪悪感と、未来への不安＝失う恐怖だ。これ以上傷つかないために、人は無意識に厳しいボーダーを引く。完璧でなければ愛されない。本音を言ってはいけない。悪魔は、その恐れを煽って配線を歪める。"
+    },
+    {
+      "id": "inner_love",
+      "kind": "prompt",
+      "prompt": "a single strong beam of warm light breaking into dark tangled wiring, the knots beginning to glow gold, hopeful, cinematic",
+      "style": "cinematic",
+      "motion": "pan_lr",
+      "grade": "warm",
+      "text": "愛には、恐れがない",
+      "narration": "ここに、強力な法則がある。愛には恐れがない。完全な愛は、恐れを締め出す。神は愛である。恐れに対抗する手段は、勇気でも気合でもない。恐れを無効化できる唯一の素材は、愛だ。恐れというウイルスに対して、私たちは愛というOSを入れ直す必要がある。"
+    },
+    {
+      "id": "inner_cross",
+      "kind": "prompt",
+      "prompt": "a cross of light burning through a complex circuit board, severed dark wires falling away, a new clean luminous circuit forming, warm gold, cinematic",
+      "style": "cinematic",
+      "motion": "orbit",
+      "grade": "warm",
+      "text": "十字架という、書き換えの技術",
+      "narration": "原福音とは、十字架で死と恐れの主＝悪魔の頭を打ち砕いた、キリストの絶対の勝利だ。これは歴史の出来事ではなく、今使える実践ツールである。赦されていないという囁きに、十字架の赦しをぶつける。すべてを失うという囁きに、神は決して見捨てないと宣言する。",
+      "graphics": [
+        { "type": "node", "at": [0.5, 0.5], "shape": "circle", "r": 0.05, "label": "私", "appear": [0.3, 1.0] },
+        { "type": "node", "at": [0.82, 0.5], "shape": "box", "w": 0.18, "h": 0.16, "label": "愛", "color": [255, 200, 90], "appear": [2.5, 3.3] },
+        { "type": "link", "from": [0.55, 0.5], "to": [0.73, 0.5], "draw": [3.0, 3.8], "flow": true, "arrow": true, "color": [255, 200, 90] }
+      ]
+    },
+    {
+      "id": "inner_close",
+      "kind": "gradient",
+      "text": "あなたの行動原理を、恐れから愛へ",
+      "text_style": "subtitle",
+      "colors": ["#161422", "#0a1410"],
+      "grade": "warm",
+      "duration": 6.0,
+      "narration": "あなたを縛る不幸なループは、性格のせいではない。恐れの配線のせいだ。その嘘に同意するのをやめた瞬間、ボーダーは効力を失う。あなたにはそれができる。なぜなら、キリストがすでに勝利しているからだ。"
+    }
+  ]
+}

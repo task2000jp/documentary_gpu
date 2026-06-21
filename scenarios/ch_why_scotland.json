@@ -1,0 +1,74 @@
+{
+  "chapter": "ch_why_scotland",
+  "_note": "本作の表題『なぜ蒸気機関はスコットランドで生まれたか』に直接答える核心章。自走の確定洞察 gap_024(産業革命=外的豊かさの爆発／但しシャローム射程・繁栄の神学と区別) を、改革→識字→啓蒙→ワット→産業 の論旨鎖に統合。最後に『最初の一押しは聖書だった』で背骨に接続。",
+  "defaults": { "grade": "warm", "style": "cinematic", "voice_wps": 7.0 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "why_title",
+      "kind": "title",
+      "text": "なぜ蒸気機関は\nスコットランドで生まれたか",
+      "text_style": "title",
+      "colors": ["#0a0a12", "#1c1430"],
+      "duration": 5.5
+    },
+    {
+      "id": "why_reformation",
+      "kind": "prompt",
+      "prompt": "16th century Scotland, John Knox preaching, parish congregation with open Bibles, austere stone kirk, candlelight, oil painting",
+      "style": "historical_oil",
+      "motion": "dolly",
+      "grade": "sepia",
+      "text": "一五六〇年　スコットランド宗教改革",
+      "narration": "一五六〇年、スコットランド。宗教改革は聖書を民の手に返した。だが改革者ノックスはそれだけでは足りないと考えた。聖書を読む民を造るために、すべての教区に学校を置け。こうしてこの貧しい辺境に、世界でも稀な識字の土壌が生まれた。"
+    },
+    {
+      "id": "why_enlightenment",
+      "kind": "prompt",
+      "prompt": "18th century Edinburgh, scholars debating in a candlelit lecture room, instruments and books, the Scottish Enlightenment, oil painting",
+      "style": "historical_oil",
+      "motion": "pan_lr",
+      "grade": "warm",
+      "text": "読む民から、考える民へ",
+      "narration": "読む民は、やがて考える民になった。エディンバラに啓蒙が花開く。ヒューム、アダム・スミス、そして潜熱を見出した化学者ジョゼフ・ブラック。神が秩序ある世界を造ったのなら、その法則は人に読み解けるはずだ。彼らはそう信じて自然を測った。"
+    },
+    {
+      "id": "why_watt",
+      "kind": "prompt",
+      "prompt": "1765 Glasgow University workshop, James Watt examining a Newcomen steam engine model, brass and copper, steam, dramatic light, oil painting",
+      "style": "historical_oil",
+      "motion": "orbit",
+      "grade": "warm",
+      "text": "一七六五年　グラスゴー",
+      "narration": "一七六五年グラスゴー。大学の片隅で蒸気機関の模型を直していたジェームズ・ワットは、分離凝縮器を着想する。師ブラックの熱の理論が、その閃きを支えた。識字と探究の二百年が、ついに鉄と蒸気を動かしはじめた。蒸気機関は、偶然ここで生まれたのではない。"
+    },
+    {
+      "id": "why_industry",
+      "kind": "prompt",
+      "prompt": "industrial revolution foundry at night, molten iron glowing, factory chimneys and smoke over a river city, cinematic",
+      "style": "cinematic",
+      "motion": "zoom_in",
+      "grade": "cold",
+      "text": "豊かさの爆発、その影",
+      "narration": "そこから先は、世界が知るとおりだ。産業革命は外的な豊かさを爆発させた。だが、成功は富だけではない。関係、健康、心の平安、神との和解。シャロームの五つの次元すべてに、この力は何をしたのか。それを問わぬ繁栄は、福音とは似て非なるものだ。"
+    },
+    {
+      "id": "why_spine",
+      "kind": "manim",
+      "scene": "AdapterSpine",
+      "duration": 13.0,
+      "grade": "warm",
+      "text": "最初の一押しは、聖書だった",
+      "narration": "では、なぜスコットランドだったのか。石炭でも、港でも、偶然でもない。福音が、読み、考え、働く民を造ったからだ。産業も、科学も、やがて来るITも人工知能も、すべてこの一本のインフラの上を運ばれてきた。そして最初の一押しは、民の手に渡された一冊の聖書だった。",
+      "fallback": { "colors": ["#06121f", "#0d3450"] }
+    },
+    {
+      "id": "why_close",
+      "kind": "gradient",
+      "text": "勝利の福音",
+      "text_style": "title",
+      "colors": ["#1c1430", "#0a0a12"],
+      "duration": 5.0
+    }
+  ]
+}

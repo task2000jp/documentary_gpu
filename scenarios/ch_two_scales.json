@@ -1,0 +1,71 @@
+{
+  "chapter": "ch_two_scales",
+  "_note": "橋=Track A(内面工学/ミクロ)とTrack B(社会・科学発展/マクロ)を接続。核心洞察『恐れが解ければ思考方向が変わり探究=科学に繋がる』。宗教改革=社会規模の恐れからの解放。AdapterSpineで一本の背骨に統合。",
+  "defaults": { "grade": "warm", "style": "cinematic", "voice_wps": 7.0 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "ts_title",
+      "kind": "title",
+      "text": "同じ福音、二つのスケール\n── 心の配線と、文明の配線",
+      "text_style": "title",
+      "colors": ["#0a0a12", "#1c1430"],
+      "duration": 6.0
+    },
+    {
+      "id": "ts_micro",
+      "kind": "prompt",
+      "prompt": "intimate portrait of a person exhaling in relief as dark wiring around them dissolves into warm light, close and personal, cinematic",
+      "style": "cinematic",
+      "motion": "dolly",
+      "grade": "warm",
+      "text": "ミクロ ── 解放された心は、外へ手を伸ばす",
+      "narration": "恐れに支配された心は、生き延びることしか考えられない。視野は内に閉じ、同じループを回り続ける。だが、赦され、決して見捨てられないと知った心は変わる。はじめて安心して、世界へ手を伸ばす。問いを立て、確かめ、創りはじめる。"
+    },
+    {
+      "id": "ts_hinge",
+      "kind": "prompt",
+      "prompt": "a single glowing thread rising from one human heart and expanding outward into a vast network of light over a continent at night, micro to macro, cinematic",
+      "style": "cinematic",
+      "motion": "zoom_in",
+      "grade": "warm",
+      "text": "蝶番 ── 恐れからの解放が、思考を変える",
+      "narration": "ここに一つの蝶番がある。恐れが解ければ、思考の向きが変わる。守りから探究へ。そしてその転換は、一人の中だけで終わらない。同じことが、社会の規模で起きたとき、歴史が動いた。",
+      "graphics": [
+        { "type": "node", "at": [0.22, 0.55], "shape": "circle", "r": 0.05, "label": "心", "appear": [0.5, 1.3] },
+        { "type": "node", "at": [0.5, 0.4], "shape": "circle", "r": 0.045, "label": "思考の転換", "appear": [1.6, 2.4] },
+        { "type": "node", "at": [0.8, 0.5], "shape": "box", "w": 0.18, "h": 0.16, "label": "探究・科学", "color": [0, 200, 255], "appear": [2.8, 3.6] },
+        { "type": "link", "from": [0.27, 0.55], "to": [0.46, 0.42], "draw": [1.2, 2.0], "flow": true, "arrow": true },
+        { "type": "link", "from": [0.54, 0.4], "to": [0.71, 0.5], "draw": [2.4, 3.2], "flow": true, "arrow": true, "color": [255, 200, 90] }
+      ]
+    },
+    {
+      "id": "ts_macro",
+      "kind": "prompt",
+      "prompt": "16th century Reformation transitioning into early scientific revolution, a scholar setting aside fear to measure the heavens with instruments, dawn light, oil painting",
+      "style": "historical_oil",
+      "motion": "pan_lr",
+      "grade": "sepia",
+      "text": "マクロ ── 宗教改革は、社会規模の解放だった",
+      "narration": "宗教改革は、まさにこれを社会の規模で起こした。地獄への恐怖と、贖宥状で恵みを買う不安。そこから、恵みによる確信へ。恐れから解放された文明は、はじめて確信をもって自然を測りはじめた。それが科学だ。心の内面工学と、文明の歩みは、同じ順番で進む。"
+    },
+    {
+      "id": "ts_spine",
+      "kind": "manim",
+      "scene": "AdapterSpine",
+      "duration": 13.0,
+      "grade": "warm",
+      "text": "二つの配線を貫く、一本の背骨",
+      "narration": "多くの人は、この二つを一気通貫では見ない。心の問題は心の話、科学は科学の話だと。だが背骨は一本だ。個人の内面工学も、文明のインフラも、動かしたのは同じ原福音。恐れに勝利した、ただ一つの出来事である。",
+      "fallback": { "colors": ["#06121f", "#0d3450"] }
+    },
+    {
+      "id": "ts_close",
+      "kind": "gradient",
+      "text": "勝利の福音",
+      "text_style": "title",
+      "colors": ["#1c1430", "#0a0a12"],
+      "duration": 5.0
+    }
+  ]
+}

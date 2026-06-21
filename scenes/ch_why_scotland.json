@@ -1,0 +1,161 @@
+[
+  {
+    "id": "why_title",
+    "duration": 5.5,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#0a0a12",
+        "#1c1430"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "なぜ蒸気機関は\nスコットランドで生まれたか",
+      "style": "title"
+    }
+  },
+  {
+    "id": "why_reformation",
+    "duration": 16.7,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "16th century Scotland, John Knox preaching, parish congregation with open Bibles, austere stone kirk, candlelight, oil painting",
+      "style": "historical_oil",
+      "cache_key": "why_reformation",
+      "motion": "dolly",
+      "amplitude": 0.04
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "一五六〇年　スコットランド宗教改革",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/why_reformation.wav"
+  },
+  {
+    "id": "why_enlightenment",
+    "duration": 17.1,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "18th century Edinburgh, scholars debating in a candlelit lecture room, instruments and books, the Scottish Enlightenment, oil painting",
+      "style": "historical_oil",
+      "cache_key": "why_enlightenment",
+      "motion": "pan_lr",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "読む民から、考える民へ",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/why_enlightenment.wav"
+  },
+  {
+    "id": "why_watt",
+    "duration": 18.1,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "1765 Glasgow University workshop, James Watt examining a Newcomen steam engine model, brass and copper, steam, dramatic light, oil painting",
+      "style": "historical_oil",
+      "cache_key": "why_watt",
+      "motion": "orbit",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "一七六五年　グラスゴー",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/why_watt.wav"
+  },
+  {
+    "id": "why_industry",
+    "duration": 17.4,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "industrial revolution foundry at night, molten iron glowing, factory chimneys and smoke over a river city, cinematic",
+      "style": "cinematic",
+      "cache_key": "why_industry",
+      "motion": "zoom_in",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "豊かさの爆発、その影",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/why_industry.wav"
+  },
+  {
+    "id": "why_spine",
+    "duration": 13.0,
+    "background": {
+      "type": "manim",
+      "scene": "AdapterSpine",
+      "fallback": {
+        "colors": [
+          "#06121f",
+          "#0d3450"
+        ]
+      }
+    },
+    "grade": "warm",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "最初の一押しは、聖書だった",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/why_spine.wav"
+  },
+  {
+    "id": "why_close",
+    "duration": 5.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#1c1430",
+        "#0a0a12"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.38,
+    "grain": 0.03,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "勝利の福音",
+      "style": "title"
+    }
+  }
+]

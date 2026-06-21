@@ -1,0 +1,271 @@
+[
+  {
+    "id": "inner_title",
+    "duration": 5.5,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#08080f",
+        "#161422"
+      ]
+    },
+    "grade": "sepia",
+    "vignette": 0.45,
+    "grain": 0.035,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "内面工学の改築\n── 恐れのループを断つ原福音",
+      "style": "title"
+    }
+  },
+  {
+    "id": "inner_loop",
+    "duration": 14.9,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "abstract tangled glowing wiring and knotted circuits in deep darkness, a faint human silhouette caught inside, cold blue, cinematic",
+      "style": "cinematic",
+      "cache_key": "inner_loop",
+      "motion": "dolly",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.45,
+    "grain": 0.035,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "なぜ、同じループに陥るのか",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.5,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.05,
+        "label": "私",
+        "appear": [
+          0.4,
+          1.2
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.5,
+          0.5
+        ],
+        "to": [
+          0.22,
+          0.28
+        ],
+        "draw": [
+          1.0,
+          1.8
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.5,
+          0.5
+        ],
+        "to": [
+          0.8,
+          0.3
+        ],
+        "draw": [
+          1.2,
+          2.0
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.5,
+          0.5
+        ],
+        "to": [
+          0.28,
+          0.74
+        ],
+        "draw": [
+          1.4,
+          2.2
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.5,
+          0.5
+        ],
+        "to": [
+          0.78,
+          0.72
+        ],
+        "draw": [
+          1.6,
+          2.4
+        ]
+      }
+    ],
+    "audio": "build/audio/inner_loop.wav"
+  },
+  {
+    "id": "inner_fear",
+    "duration": 17.2,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "walls and rigid borders forming around a glowing heart in darkness, constricting geometric barriers, cold tones, cinematic",
+      "style": "cinematic",
+      "cache_key": "inner_fear",
+      "motion": "zoom_in",
+      "amplitude": 0.04
+    },
+    "grade": "cold",
+    "vignette": 0.45,
+    "grain": 0.035,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "恐れの正体 ── 罪悪感と、失う恐怖",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/inner_fear.wav"
+  },
+  {
+    "id": "inner_love",
+    "duration": 17.8,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "a single strong beam of warm light breaking into dark tangled wiring, the knots beginning to glow gold, hopeful, cinematic",
+      "style": "cinematic",
+      "cache_key": "inner_love",
+      "motion": "pan_lr",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.45,
+    "grain": 0.035,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "愛には、恐れがない",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/inner_love.wav"
+  },
+  {
+    "id": "inner_cross",
+    "duration": 18.2,
+    "background": {
+      "type": "sd_generated",
+      "prompt": "a cross of light burning through a complex circuit board, severed dark wires falling away, a new clean luminous circuit forming, warm gold, cinematic",
+      "style": "cinematic",
+      "cache_key": "inner_cross",
+      "motion": "orbit",
+      "amplitude": 0.04
+    },
+    "grade": "warm",
+    "vignette": 0.45,
+    "grain": 0.035,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "十字架という、書き換えの技術",
+      "style": "subtitle"
+    },
+    "graphics": [
+      {
+        "type": "node",
+        "at": [
+          0.5,
+          0.5
+        ],
+        "shape": "circle",
+        "r": 0.05,
+        "label": "私",
+        "appear": [
+          0.3,
+          1.0
+        ]
+      },
+      {
+        "type": "node",
+        "at": [
+          0.82,
+          0.5
+        ],
+        "shape": "box",
+        "w": 0.18,
+        "h": 0.16,
+        "label": "愛",
+        "color": [
+          255,
+          200,
+          90
+        ],
+        "appear": [
+          2.5,
+          3.3
+        ]
+      },
+      {
+        "type": "link",
+        "from": [
+          0.55,
+          0.5
+        ],
+        "to": [
+          0.73,
+          0.5
+        ],
+        "draw": [
+          3.0,
+          3.8
+        ],
+        "flow": true,
+        "arrow": true,
+        "color": [
+          255,
+          200,
+          90
+        ]
+      }
+    ],
+    "audio": "build/audio/inner_cross.wav"
+  },
+  {
+    "id": "inner_close",
+    "duration": 6.0,
+    "background": {
+      "type": "gradient",
+      "colors": [
+        "#161422",
+        "#0a1410"
+      ]
+    },
+    "grade": "warm",
+    "vignette": 0.45,
+    "grain": 0.035,
+    "atmosphere": 0.0,
+    "fade_in": 0.5,
+    "fade_out": 0.5,
+    "text": {
+      "content": "あなたの行動原理を、恐れから愛へ",
+      "style": "subtitle"
+    },
+    "audio": "build/audio/inner_close.wav"
+  }
+]

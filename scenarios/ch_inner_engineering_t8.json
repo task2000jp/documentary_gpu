@@ -1,0 +1,71 @@
+{
+  "chapter": "ch_inner_engineering_t8",
+  "_note": "先鋭化デモ。Track A×エニアグラム8(ガット/怒り・支配)×T配線×強いトーン。上位者像=いつか裏切る掌握すべき相手。原福音=最強者が既に勝ったから武器を置ける。original_gospel.mdの恐れ理論を8の言語に全振り。",
+  "defaults": { "grade": "cold", "style": "cinematic", "voice_wps": 7.0, "vignette": 0.5, "grain": 0.04 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "t8_title",
+      "kind": "title",
+      "text": "鎧を脱げる強さ\n── 8のための原福音",
+      "text_style": "title",
+      "colors": ["#0c0606", "#241010"],
+      "duration": 5.5
+    },
+    {
+      "id": "t8_armor",
+      "kind": "prompt",
+      "prompt": "a powerful armored figure with raised fists standing guard before a dark fortress wall, intense, heavy shadow, cinematic",
+      "style": "cinematic",
+      "motion": "dolly",
+      "grade": "cold",
+      "text": "舐められたくない。弱みは見せない。",
+      "narration": "舐められたくない。弱みは見せない。人に頼るくらいなら自分でやる。あなたは強い。それは本当だ。だが一つだけ答えてくれ。その鎧は、いつから脱げなくなった。"
+    },
+    {
+      "id": "t8_root",
+      "kind": "prompt",
+      "prompt": "a child watching an ambivalent caregiver, warmth and threat in the same room, emotional chiaroscuro, oil painting",
+      "style": "historical_oil",
+      "motion": "zoom_in",
+      "grade": "sepia",
+      "text": "ルーツ ── 愛と裏切りを、同じ手に見た",
+      "narration": "幼い日、いちばん頼りたい相手の中に、あなたは愛と裏切りの両方を見た。だから決めた。二度と明け渡さない。支配されるくらいなら、先に支配する。それは弱さではない。生き延びるための、正しい判断だった。"
+    },
+    {
+      "id": "t8_godimage",
+      "kind": "prompt",
+      "prompt": "a distant towering ruler figure on a throne seen from below, cold and unreadable, a lone person refusing to kneel, dramatic, cinematic",
+      "style": "cinematic",
+      "motion": "orbit",
+      "grade": "cold",
+      "text": "その配線は、神さえ敵に見せる",
+      "narration": "問題はその配線が、神すら「いつか裏切る上位者」「掌握すべき相手」として見せることだ。だからあなたは誰にも、神にすら、本当の腹を見せない。常に臨戦態勢。それが、降ろせない鎧の正体だ。",
+      "graphics": [
+        { "type": "node", "at": [0.3, 0.6], "shape": "circle", "r": 0.05, "label": "私", "appear": [0.4, 1.2] },
+        { "type": "node", "at": [0.72, 0.35], "shape": "box", "w": 0.2, "h": 0.16, "label": "上位者", "color": [120, 130, 150], "appear": [1.0, 1.8] },
+        { "type": "link", "from": [0.35, 0.58], "to": [0.64, 0.4], "draw": [1.8, 2.8], "arrow": true, "color": [200, 80, 80], "label": "警戒・防衛" }
+      ]
+    },
+    {
+      "id": "t8_gospel",
+      "kind": "manim",
+      "scene": "AdapterSpine",
+      "duration": 14.0,
+      "grade": "warm",
+      "text": "戦いは、もう終わっている",
+      "narration": "だが聞け。戦いはもう終わっている。最も強い方が、十字架で既に勝った。あなたが守らなくても、もう負けない。本当の強さは、決して屈しないことじゃない。武器を置けるほど強いことだ。裏切らないと証明した唯一の上位者の前で、腹を見せられる強さだ。",
+      "fallback": { "colors": ["#1f0c0c", "#3a1414"] }
+    },
+    {
+      "id": "t8_close",
+      "kind": "gradient",
+      "text": "もう、独りで戦わなくていい",
+      "text_style": "subtitle",
+      "colors": ["#241010", "#0c0606"],
+      "grade": "warm",
+      "duration": 6.0,
+      "narration": "鎧を脱げ。あなたを裏切らない父の前で。掌握を手放した者が、いちばん強い。なぜなら、あなたの代わりに勝った方が、もう決して負けないからだ。"
+    }
+  ]
+}

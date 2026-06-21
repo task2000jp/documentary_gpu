@@ -1,0 +1,69 @@
+{
+  "chapter": "ch_culture_machine",
+  "_note": "Track B=社会・科学発展(マクロ)の枝。産業革命の精密機械→フィルム/録音技術→ハリウッド/ブリティッシュロック。器=インフラ(価値中立)/載せる物=ペイロード。gap_001(ブリティッシュロック・第二の逆説)を統合。",
+  "defaults": { "grade": "warm", "style": "cinematic", "voice_wps": 7.0 },
+  "music": "cues/knopfler_anthem.json",
+  "beats": [
+    {
+      "id": "cm_title",
+      "kind": "title",
+      "text": "複製される魂\n── 産業革命が生んだ夢の機械",
+      "text_style": "title",
+      "colors": ["#0a0a12", "#1c1430"],
+      "duration": 5.5
+    },
+    {
+      "id": "cm_precision",
+      "kind": "prompt",
+      "prompt": "Victorian precision engineering workshop, finely machined brass gears lenses and lathes, industrial revolution craftsmanship, dramatic light, cinematic",
+      "style": "cinematic",
+      "motion": "orbit",
+      "grade": "warm",
+      "text": "鉄と蒸気は、精密機械を生んだ",
+      "narration": "産業革命がもたらしたのは、鉄と蒸気だけではない。精密に金属を削る技術、レンズを磨く技術。その子として、人類史上はじめて光と音を捕える機械が生まれた。"
+    },
+    {
+      "id": "cm_film",
+      "kind": "prompt",
+      "prompt": "early 20th century cinema, film projector beam cutting through darkness, Hollywood sign on a golden hillside, crowds before a movie palace, cinematic",
+      "style": "cinematic",
+      "motion": "pan_lr",
+      "grade": "warm",
+      "text": "光を複製する ── ハリウッド",
+      "narration": "フィルムは光を、レコードは音を、はじめて複製可能にした。一度きりの上演が、無限に再生できる商品になる。ハリウッドは、夢を大量生産する装置だった。物語が、工場から出荷されるようになった。"
+    },
+    {
+      "id": "cm_rock",
+      "kind": "prompt",
+      "prompt": "1960s recording studio, vinyl record spinning, a working-class British rock band performing under stage light, raw energy, cinematic",
+      "style": "cinematic",
+      "motion": "zoom_in",
+      "grade": "cold",
+      "text": "音を複製する ── ブリティッシュロック",
+      "narration": "録音技術は、リバプールの労働者階級の少年たちの叫びを、世界中の部屋へ運んだ。抑圧の底から生まれた叫びが、福音インフラの上を流れて全世界に届く。これが第二の逆説だ。最も小さな場所の声が、最も遠くまで響いた。",
+      "graphics": [
+        { "type": "node", "at": [0.18, 0.5], "shape": "circle", "r": 0.05, "label": "叫び", "appear": [0.4, 1.2] },
+        { "type": "node", "at": [0.82, 0.5], "shape": "circle", "r": 0.06, "label": "世界", "appear": [2.2, 3.0] },
+        { "type": "link", "from": [0.24, 0.5], "to": [0.74, 0.5], "draw": [1.2, 2.4], "flow": true, "arrow": true, "color": [255, 200, 90], "label": "録音・電波" }
+      ]
+    },
+    {
+      "id": "cm_spine",
+      "kind": "manim",
+      "scene": "AdapterSpine",
+      "duration": 13.0,
+      "grade": "warm",
+      "text": "器は中立。問題は、何を載せるか",
+      "narration": "カメラもレコードも、それ自体は価値中立の器だ。インフラは、何を運ぶかを選ばない。二十世紀、この器は世界を満たした。だが私たちは、その上に何を載せてきたのか。同じ器に、もう一度あの福音を載せられるか。それが、本作の問いである。",
+      "fallback": { "colors": ["#06121f", "#0d3450"] }
+    },
+    {
+      "id": "cm_close",
+      "kind": "gradient",
+      "text": "勝利の福音",
+      "text_style": "title",
+      "colors": ["#1c1430", "#0a0a12"],
+      "duration": 5.0
+    }
+  ]
+}
