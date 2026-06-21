@@ -57,7 +57,10 @@ def _base_clip(scene: dict, out: str) -> str:
         image = _resolve_image(bg)
         if btype == "sd_generated":
             import image_gen
-            image_gen.free()  # FLUX VRAM解放 → depth model と共存不可（T4 15GB制約）
+            # FLUXのみVRAM解放（Depthと共存不可・T4 15GB）。SDXLはcpu_offloadで共存でき、
+            # 毎シーン解放→再ロード(7GB)が遅延と無料RAM逼迫の主因なので保持する。
+            if getattr(image_gen, "_backend", None) == "flux":
+                image_gen.free()
         motion = bg.get("motion", "orbit")
         amp = bg.get("amplitude", 0.04)
         return dp.animate_parallax(image, out, duration=duration,

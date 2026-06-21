@@ -8,7 +8,9 @@ import torch
 from pathlib import Path
 from PIL import Image
 
-CACHE_DIR = Path(__file__).parent.parent / "build" / "img_cache"
+# IMG_CACHE_DIR で保存先を上書き可（Colabでは Drive を指定→セッション跨ぎで冪等再利用）。
+CACHE_DIR = Path(os.environ.get("IMG_CACHE_DIR")
+                 or (Path(__file__).parent.parent / "build" / "img_cache"))
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
