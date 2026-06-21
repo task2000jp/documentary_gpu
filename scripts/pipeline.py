@@ -66,6 +66,15 @@ def cmd_scenario(args):
         renderer.render_chapter(chapter, out)
 
 
+def cmd_preview(args):
+    """torch不要の簡易アニマティック（ローカルで尺・構成・図解を確認）。本番画はColab。"""
+    import preview_render
+    try:
+        preview_render.render(args.chapter, args.out)
+    except FileNotFoundError as e:
+        print(f"エラー: {e}")
+
+
 def cmd_render(args):
     import renderer
     scenes_path = BASE / "scenes" / f"{args.chapter}.json"
@@ -211,6 +220,8 @@ def main():
     sc.add_argument("scenario", help="scenarios/<名>.json か JSONパス")
     sc.add_argument("--out", default=None, help="出力 scenes JSON")
     sc.add_argument("--render", action="store_true", help="生成後そのまま描画（要torch=Colab）")
+    pv = sub.add_parser("preview", help="torch不要の簡易アニマティック(ローカル確認)")
+    pv.add_argument("chapter"); pv.add_argument("--out", default=None)
     pr = sub.add_parser("render"); pr.add_argument("chapter")
     rs = sub.add_parser("render-scene")
     rs.add_argument("json"); rs.add_argument("id")
@@ -228,8 +239,8 @@ def main():
     up.add_argument("--schedule", default=None, help="予約投稿日時 ISO8601")
 
     args = p.parse_args()
-    {"status": cmd_status, "scenario": cmd_scenario, "render": cmd_render,
-     "render-scene": cmd_render_scene, "music": cmd_music,
+    {"status": cmd_status, "scenario": cmd_scenario, "preview": cmd_preview,
+     "render": cmd_render, "render-scene": cmd_render_scene, "music": cmd_music,
      "doctor": cmd_doctor, "upload": cmd_upload}.get(
         args.command, lambda a: p.print_help())(args)
 
